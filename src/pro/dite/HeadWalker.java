@@ -3,9 +3,7 @@ package pro.dite;
 import com.sun.org.apache.xpath.internal.operations.And;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.diff.*;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -22,7 +20,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.WorkingTreeIterator;
 import org.eclipse.jgit.treewalk.filter.*;
 import org.eclipse.jgit.util.io.DisabledOutputStream;
+import org.eclipse.jgit.util.io.NullOutputStream;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -33,7 +33,9 @@ abstract public class HeadWalker
     Repository repository;
     Git git;
     RevWalk walk;
-    DiffFormatter df;
+
+    ByteArrayOutputStream diffOut = new ByteArrayOutputStream();
+    Differ df;
 
     public HeadWalker(File gitDir) throws IOException
     {
@@ -44,11 +46,6 @@ abstract public class HeadWalker
                 .build();
         git = new Git(repository);
         walk = new RevWalk(repository);
-
-        df = new DiffFormatter(DisabledOutputStream.INSTANCE);
-        df.setRepository(repository);
-        df.setDiffComparator(RawTextComparator.DEFAULT);
-        df.setDetectRenames(true);
     }
 
     public void walk() throws IOException, GitAPIException
@@ -60,6 +57,10 @@ abstract public class HeadWalker
             commits.add(0, commit);
         }
 
+        df = new Differ(NullOutputStream.INSTANCE);
+        df.setRepository(repository);
+        df.setDiffComparator(RawTextComparator.DEFAULT);
+        df.setDetectRenames(true);
         TreeFilter filter = AndTreeFilter.create(PathFilter.create("app/"), IndexDiffFilter.ANY_DIFF); // TODO replace app with code directories
         df.setPathFilter(filter);
 
@@ -70,7 +71,6 @@ abstract public class HeadWalker
             if (parent != null)
             {
                 List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
-
                 processCommit(commit, diffs);
             }
             parent = commit;
