@@ -11,6 +11,8 @@ import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevTree;
@@ -68,10 +70,20 @@ abstract public class HeadWalker
             if (parent != null)
             {
                 List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
+
                 processCommit(commit, diffs);
             }
             parent = commit;
         }
+    }
+
+    String getBlobContent(ObjectId objectId) throws IOException
+    {
+        ObjectLoader object = repository.open(objectId);
+        ObjectStream is = object.openStream();
+
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
 
     abstract public void processCommit(RevCommit commit, List<DiffEntry> diffs) throws IOException;
