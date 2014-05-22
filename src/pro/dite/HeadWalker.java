@@ -33,9 +33,7 @@ abstract public class HeadWalker
     Repository repository;
     Git git;
     RevWalk walk;
-
-    ByteArrayOutputStream diffOut = new ByteArrayOutputStream();
-    Differ df;
+    Differ differ;
 
     public HeadWalker(File gitDir) throws IOException
     {
@@ -57,12 +55,7 @@ abstract public class HeadWalker
             commits.add(0, commit);
         }
 
-        df = new Differ(NullOutputStream.INSTANCE);
-        df.setRepository(repository);
-        df.setDiffComparator(RawTextComparator.DEFAULT);
-        df.setDetectRenames(true);
-        TreeFilter filter = AndTreeFilter.create(PathFilter.create("app/"), IndexDiffFilter.ANY_DIFF); // TODO replace app with code directories
-        df.setPathFilter(filter);
+        differ = new Differ(repository);
 
         // starting from oldest commit
         RevCommit parent = null;
@@ -70,8 +63,27 @@ abstract public class HeadWalker
         {
             if (parent != null)
             {
-                List<DiffEntry> diffs = df.scan(parent.getTree(), commit.getTree());
-                processCommit(commit, diffs);
+                List<DiffEntry> diffs = differ.getEdits(
+                    parent.getTree().getId().toObjectId(),
+                    commit.getTree().getId().toObjectId());
+
+                for (DiffEntry diff : diffs)
+                {
+                    if (!diff.getNewPath().toLowerCase().endsWith(".php"))
+                    {
+                        // TODO allow other extensions as well?
+                        continue;
+                    }
+
+                    String a = diff.getChangeType() == DiffEntry.ChangeType.ADD ? ""
+                        : getBlobContent(diff.getOldId().toObjectId());
+                    String b = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? ""
+                        : getBlobContent(diff.getNewId().toObjectId());
+
+                    EditList edits = MyersDiff.INSTANCE.diff(RawTextComparator.WS_IGNORE_ALL, new RawText(a.getBytes()), new RawText(b.getBytes()));
+
+                    processFileDiff(commit, edits, a, b);
+                }
             }
             parent = commit;
         }
@@ -86,6 +98,6 @@ abstract public class HeadWalker
         return s.hasNext() ? s.next() : "";
     }
 
-    abstract public void processCommit(RevCommit commit, List<DiffEntry> diffs) throws IOException;
+    abstract public void processFileDiff(RevCommit commit, EditList edits, String a, String b) throws IOException;
 
 }

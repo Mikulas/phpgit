@@ -1,48 +1,44 @@
 package pro.dite;
 
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
-import org.eclipse.jgit.diff.EditList;
-import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.*;
+import org.eclipse.jgit.lib.*;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Differ extends DiffFormatter
+public class Differ
 {
-    public ArrayList<FileEdits> fileEdits = new ArrayList<FileEdits>();
 
-    public Differ(OutputStream out)
+    ObjectReader reader;
+
+    public Differ(Repository repo)
     {
-        super(out);
+        reader = repo.newObjectReader();
     }
 
-    @Override
-    public void format(EditList edits, RawText a, RawText b) throws IOException
+    public List<DiffEntry> getEdits(AnyObjectId a, AnyObjectId b) throws IOException
     {
-        fileEdits.add(new FileEdits(edits, a, b));
-        super.format(edits, a, b);
+        RevWalk rw = new RevWalk(reader);
+
+        CanonicalTreeParser aParser = new CanonicalTreeParser();
+        CanonicalTreeParser bParser = new CanonicalTreeParser();
+        aParser.reset(reader, rw.parseTree(a));
+        bParser.reset(reader, rw.parseTree(b));
+
+        TreeWalk walk = new TreeWalk(reader);
+        walk.addTree(aParser);
+        walk.addTree(bParser);
+        walk.setRecursive(true);
+        walk.setFilter(TreeFilter.ANY_DIFF);
+
+        return DiffEntry.scan(walk);
     }
 
-    public ArrayList<FileEdits> getEdits(DiffEntry diff) throws IOException
-    {
-        format(diff);
-        return fileEdits;
-    }
-
-    public class FileEdits
-    {
-        public EditList edits;
-        public RawText a;
-        public RawText b;
-
-        private FileEdits(EditList edits, RawText a, RawText b)
-        {
-            this.edits = edits;
-            this.a = a;
-            this.b = b;
-        }
-    }
 }
