@@ -82,6 +82,12 @@ abstract public class HeadWalker
 
                     EditList edits = MyersDiff.INSTANCE.diff(RawTextComparator.WS_IGNORE_ALL, new RawText(a.getBytes()), new RawText(b.getBytes()));
 
+                    System.out.println(diff.getNewPath());
+                    PhpFile aPhp = new PhpFile(a);
+                    PhpFile bPhp = new PhpFile(b);
+                    System.out.println(aPhp);
+                    System.out.println(bPhp);
+
                     processFileDiff(commit, edits, a, b);
                 }
             }
