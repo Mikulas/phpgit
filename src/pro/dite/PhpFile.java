@@ -12,20 +12,40 @@ public class PhpFile
 
     ArrayList<Line> lines = new ArrayList<Line>();
 
-    public PhpFile(String content)
+    public PhpFile(String content) throws EmptyStackException
     {
+        if (content.equals(""))
+        {
+            return;
+        }
+
         Stack<Context> context = new Stack<Context>();
 
-        content = removeQuoted(content, "\"(?:[^\\\\\"]|\\\\.)*\"");
-        content = removeQuoted(content, "'(?:[^\\\\']|\\\\.)*'");
+        content = removeQuoted(content, "\"(?>[^\\n\\\\\"]|\\\\.)*\"");
+        content = removeQuoted(content, "'(?>[^\\n\\\\']|\\\\.)*'");
+        content = removeComments(content);
+        content = removeQuoted(content, "\"(?>[^\\\\\"]|\\\\.)*\"");
+        content = removeQuoted(content, "'(?>[^\\\\']|\\\\.)*'");
 
+        Pattern pNamespace = Pattern.compile("namespace\\s+(?<namespace>[\\\\a-zA-Z_\\x7f-\\xff][\\\\a-zA-Z0-9_\\x7f-\\xff]*)");
         Pattern pClass = Pattern.compile("class\\s+(?<className>[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*)");
         Pattern pFunction = Pattern.compile("function\\s+(?<functionName>[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*)");
         Boolean ignoreNextOpeningBracket = false;
-        for (String line : content.split("\\r?\\n"))
+
+        String[] split;
+        try {
+            split = content.split("\\r?\\n");
+        } catch (StackOverflowError e)
         {
+            return;
+        }
+
+        for (String line : split)
+        {
+            Matcher mNamespace = pNamespace.matcher(line);
             Matcher mClass = pClass.matcher(line);
             Matcher mFunction = pFunction.matcher(line);
+
             if (mClass.find())
             {
                 context.add(new Context(ContextType.CLASS, mClass.group("className")));
@@ -36,8 +56,12 @@ public class PhpFile
                 context.add(new Context(ContextType.FUNCTION, mFunction.group("functionName")));
                 ignoreNextOpeningBracket = true;
             }
+            else if (mNamespace.find())
+            {
+                context.add(new Context(ContextType.NAMESPACE, mNamespace.group("namespace")));
+            }
 
-            if (line.indexOf('{') != -1)
+            for (int i = countOccurrences(line, "{"); i > 0; --i)
             {
                 if (!ignoreNextOpeningBracket)
                 {
@@ -45,30 +69,48 @@ public class PhpFile
                 }
                 ignoreNextOpeningBracket = false;
             }
-            if (line.indexOf('}') != -1)
+
+            for (int i = countOccurrences(line, "}"); i > 0; --i)
             {
                 context.pop();
             }
-
             lines.add(new Line(context));
         }
+    }
+
+    private String removeComments(String in)
+    {
+        // TODO this is not ok if if was in string
+        Matcher mHash = Pattern.compile("(?>#|//).*$", Pattern.MULTILINE).matcher(in);
+        in = mHash.replaceAll("");
+
+        StringBuffer resultString = new StringBuffer();
+        Matcher mComment = Pattern.compile("/\\*.*?\\*/").matcher(in);
+        while (mComment.find()) {
+            int lastIndex = 0;
+            StringBuilder replacement = new StringBuilder();
+            for (int i = countOccurrences(mComment.group(), "\n"); i > 0; --i)
+            {
+                replacement.append("\n");
+            }
+
+            mComment.appendReplacement(resultString, replacement.toString());
+        }
+        mComment.appendTail(resultString);
+
+        return resultString.toString();
     }
 
     private String removeQuoted(String in, String regex)
     {
         StringBuffer resultString = new StringBuffer();
-        Matcher mDouble = Pattern.compile(regex).matcher(in);
+        Matcher mDouble = Pattern.compile(regex, Pattern.MULTILINE).matcher(in);
         while (mDouble.find()) {
             int lastIndex = 0;
             StringBuilder replacement = new StringBuilder();
-            while (lastIndex != -1)
+            for (int i = countOccurrences(mDouble.group(), "\n"); i > 0; --i)
             {
-                lastIndex = mDouble.group().indexOf("\n", lastIndex);
-                if (lastIndex != -1)
-                {
-                    replacement.append("\n");
-                    lastIndex++;
-                }
+                replacement.append("\n");
             }
 
             mDouble.appendReplacement(resultString, replacement.toString());
@@ -76,6 +118,23 @@ public class PhpFile
         mDouble.appendTail(resultString);
 
         return resultString.toString();
+    }
+
+    private int countOccurrences(String in, String find)
+    {
+        int count = 0;
+        int lastIndex = 0;
+        StringBuilder replacement = new StringBuilder();
+        while (lastIndex != -1)
+        {
+            lastIndex = in.indexOf(find, lastIndex);
+            if (lastIndex != -1)
+            {
+                count++;
+                lastIndex += find.length();
+            }
+        }
+        return count;
     }
 
     @Override
@@ -96,7 +155,8 @@ public class PhpFile
     {
         NONE,
         CLASS,
-        FUNCTION
+        NAMESPACE,
+        FUNCTION,
     }
 
     public class Context

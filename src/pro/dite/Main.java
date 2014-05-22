@@ -6,22 +6,28 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Main
 {
 
     public static void main(String[] args) throws IOException, GitAPIException
     {
+        PhpFile test = new PhpFile(new String(Files.readAllBytes(Paths.get(
+            "/Users/mikulas/Projects/PhpGit/src/pro/dite/test/test.php"
+        ))));
+
         File repoDir = new File("/Users/mikulas/Projects/khanovaskola.cz-v3/.git");
         HeadWalker walker = new HeadWalker(repoDir)
         {
             @Override
             public void processFileDiff(RevCommit commit, EditList edits, String a, String b)
             {
-                System.out.println(commit.getShortMessage());
+//                System.out.println(commit.getShortMessage());
                 for (Edit edit : edits)
                 {
-                    System.out.println("\t" + edit);
+//                    System.out.println("\t" + edit);
                 }
             }
         };
