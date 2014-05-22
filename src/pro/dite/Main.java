@@ -14,10 +14,6 @@ public class Main
 
     public static void main(String[] args) throws IOException, GitAPIException
     {
-        PhpFile test = new PhpFile(new String(Files.readAllBytes(Paths.get(
-            "/Users/mikulas/Projects/PhpGit/src/pro/dite/test/test.php"
-        ))));
-
         File repoDir = new File("/Users/mikulas/Projects/khanovaskola.cz-v3/.git");
         HeadWalker walker = new HeadWalker(repoDir)
         {

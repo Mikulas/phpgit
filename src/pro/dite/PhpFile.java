@@ -85,7 +85,7 @@ public class PhpFile
         in = mHash.replaceAll("");
 
         StringBuffer resultString = new StringBuffer();
-        Matcher mComment = Pattern.compile("/\\*.*?\\*/").matcher(in);
+        Matcher mComment = Pattern.compile("/\\*.*?\\*/", Pattern.DOTALL).matcher(in);
         while (mComment.find()) {
             int lastIndex = 0;
             StringBuilder replacement = new StringBuilder();
