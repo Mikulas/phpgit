@@ -1,5 +1,7 @@
 package pro.dite;
 
+import com.sun.xml.internal.xsom.impl.Ref;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -19,6 +21,7 @@ public class PhpFile
 
         Pattern pClass = Pattern.compile("class\\s+(?<className>[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*)");
         Pattern pFunction = Pattern.compile("function\\s+(?<functionName>[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*)");
+        Boolean ignoreNextOpeningBracket = false;
         for (String line : content.split("\\r?\\n"))
         {
             Matcher mClass = pClass.matcher(line);
@@ -26,12 +29,27 @@ public class PhpFile
             if (mClass.find())
             {
                 context.add(new Context(ContextType.CLASS, mClass.group("className")));
+                ignoreNextOpeningBracket = true;
             }
             else if (mFunction.find())
             {
                 context.add(new Context(ContextType.FUNCTION, mFunction.group("functionName")));
+                ignoreNextOpeningBracket = true;
             }
-            // TODO pop context on }
+
+            if (line.indexOf('{') != -1)
+            {
+                if (!ignoreNextOpeningBracket)
+                {
+                    context.add(new Context());
+                }
+                ignoreNextOpeningBracket = false;
+            }
+            if (line.indexOf('}') != -1)
+            {
+                context.pop();
+            }
+
             lines.add(new Line(context));
         }
     }
@@ -86,6 +104,11 @@ public class PhpFile
         ContextType context;
         String name;
 
+        public Context()
+        {
+            this.context = ContextType.NONE;
+        }
+
         public Context(ContextType context, String name)
         {
             this.context = context;
@@ -103,7 +126,11 @@ public class PhpFile
             Context last = null;
             for (Context c : context)
             {
-                if (last != null
+                if (c.context == ContextType.NONE)
+                {
+                    continue;
+                }
+                else if (last != null
                     && last.context == ContextType.CLASS
                     && c.context == ContextType.FUNCTION)
                 {
