@@ -45,7 +45,8 @@ abstract class HeadWalker
         RevCommit parent = null;
         for (RevCommit commit : commits)
         {
-            if (parent != null)
+            // TODO process first commit also!
+            if (!shouldSkipCommit(commit) && parent != null)
             {
                 List<DiffEntry> diffs = differ.getEdits(
                         parent.getTree().getId().toObjectId(),
@@ -79,9 +80,17 @@ abstract class HeadWalker
                     }
                 }
             }
+            if (parent != null)
+            {
+                onCommitDone(commit);
+            }
             parent = commit;
         }
     }
+
+    protected abstract void onCommitDone(RevCommit commit);
+
+    protected abstract boolean shouldSkipCommit(RevCommit commit);
 
     String getBlobContent(ObjectId objectId) throws IOException
     {
