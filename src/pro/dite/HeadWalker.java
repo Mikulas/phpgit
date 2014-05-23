@@ -22,13 +22,9 @@ abstract class HeadWalker
     private Repository repository;
     private Git git;
 
-    public HeadWalker(File gitDir) throws IOException
+    public HeadWalker(Repository repository) throws IOException
     {
-        FileRepositoryBuilder builder = new FileRepositoryBuilder();
-        repository = builder.setGitDir(gitDir)
-                .readEnvironment() // scan environment GIT_* variables
-                .findGitDir() // scan up the file system tree
-                .build();
+        this.repository = repository;
         git = new Git(repository);
     }
 

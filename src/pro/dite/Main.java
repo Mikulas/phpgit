@@ -3,7 +3,9 @@ package pro.dite;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.*;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +19,11 @@ public class Main
     {
         // TODO do not require being in root
         String gitDir = System.getProperty("user.dir") + "/.git";
+        FileRepositoryBuilder builder = new FileRepositoryBuilder();
+        Repository repo = builder.setGitDir(new File(gitDir))
+                .readEnvironment()
+                .findGitDir()
+                .build();
 
         final Hashtable<String, HashSet<String>> index = new Hashtable<String, HashSet<String>>();
 
@@ -27,7 +34,7 @@ public class Main
 
         final CacheEntry e = cache.entries.get("commit a0c7ebdb175fc115fac967b1754d3f1033a015b7 1393330398 ----sp");
 
-        HeadWalker walker = new HeadWalker(repoDir)
+        HeadWalker walker = new HeadWalker(repo)
         {
             @Override
             protected void onCommitDone(RevCommit commit)
@@ -100,7 +107,12 @@ public class Main
 
         // build index from cache from all commits hit
 
-        if (args.length >= 1)
+        if (args.length >= 1 && args[0].equals("log"))
+        {
+            LogFormatter log = new LogFormatter(repo);
+            log.print(cache);
+        }
+        else if (args.length >= 1)
         {
             String def = args[0];
             System.out.println("Authors of: " + def);
