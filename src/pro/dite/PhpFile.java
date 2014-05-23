@@ -139,20 +139,6 @@ public class PhpFile
         return count;
     }
 
-    @Override
-    public String toString()
-    {
-        StringBuilder str = new StringBuilder();
-        int lineNum = 1;
-        for (Line line : lines)
-        {
-            str.append(lineNum);
-            str.append(": " + line + "\n");
-            lineNum++;
-        }
-        return str.toString();
-    }
-
     public static enum ContextType
     {
         NONE,
@@ -180,40 +166,71 @@ public class PhpFile
 
     public class Line
     {
-        String id;
+        Stack<Context> context;
 
         public Line(Stack<Context> context)
         {
-            StringBuilder str = new StringBuilder();
+            this.context = context;
+        }
+
+        public boolean isFunction()
+        {
+            for (Context c : context)
+            {
+                if (c.context == ContextType.FUNCTION)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public String toStringFunction()
+        {
             Context last = null;
+            StringBuilder str = new StringBuilder();
             for (Context c : context)
             {
                 if (c.context == ContextType.NONE)
                 {
                     continue;
-                }
-                else if (last != null
-                    && last.context == ContextType.CLASS
-                    && c.context == ContextType.FUNCTION)
+                } else if (last != null
+                        && last.context == ContextType.CLASS
+                        && c.context == ContextType.FUNCTION)
                 {
                     str.append("::");
-                }
-                else
+                } else
                 {
                     str.append("\\");
                 }
                 str.append(c.name);
                 last = c;
             }
-            id = str.toString();
+            return str.toString();
         }
 
-        @Override
         public String toString()
         {
-            return "Line{" +
-                    "id=" + id +
-                    '}';
+            Context last = null;
+            StringBuilder str = new StringBuilder();
+            for (Context c : context)
+            {
+                if (c.context == ContextType.NONE)
+                {
+                    continue;
+                } else if (last != null
+                        && last.context == ContextType.CLASS
+                        && c.context == ContextType.FUNCTION)
+                {
+                    return str.toString();
+                } else
+                {
+                    str.append("\\");
+                }
+                str.append(c.name);
+                last = c;
+            }
+            return str.toString();
         }
     }
 }

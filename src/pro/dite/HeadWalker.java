@@ -63,6 +63,10 @@ abstract public class HeadWalker
         {
             if (parent != null)
             {
+                if (commit.getFullMessage().contains("Registration: fixed more than 100% of people in zone"))
+                {
+                    System.out.println("hit");
+                }
                 List<DiffEntry> diffs = differ.getEdits(
                         parent.getTree().getId().toObjectId(),
                         commit.getTree().getId().toObjectId());
