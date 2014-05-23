@@ -16,11 +16,9 @@ class Differ
 {
 
     private final ObjectReader reader;
-    private Repository repo;
 
     public Differ(Repository repo)
     {
-        this.repo = repo;
         this.reader = repo.newObjectReader();
     }
 

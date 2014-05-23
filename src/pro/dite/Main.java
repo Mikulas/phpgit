@@ -24,6 +24,9 @@ public class Main
         final Cache cache = Cache.loadFromFile(cacheFile);
 
         File repoDir = new File(gitDir);
+
+        final CacheEntry e = cache.entries.get("commit 04997ac4c9f9d883333247a74a1c6fe4a8a24876 1398762580 ----sp");
+
         HeadWalker walker = new HeadWalker(repoDir)
         {
             @Override
@@ -32,7 +35,11 @@ public class Main
                 CacheEntry entry = cache.entries.get(commit.getId().toString());
                 if (entry != null)
                 {
-                    index.putAll(entry.index);
+                    for (String def : entry.index)
+                    {
+                        index.putIfAbsent(def, new HashSet<String>());
+                        index.get(def).add(entry.author);
+                    }
                 }
             }
 
@@ -45,25 +52,35 @@ public class Main
             @Override
             public void processFileDiff(RevCommit commit, EditList edits, PhpFile a, PhpFile b)
             {
+                CacheEntry entry = new CacheEntry(commit);
                 for (Edit edit : edits)
                 {
                     if (edit.getType() == Edit.Type.REPLACE || edit.getType() == Edit.Type.DELETE)
                     {
-                        CacheEntry entry = processEdit(a, edit.getBeginA(), edit.getEndA(), commit);
-                        cache.entries.put(commit.getId().toString(), entry);
+                        for (String def : processEdit(a, edit.getBeginA(), edit.getEndA(), commit))
+                        {
+                            entry.index.add(def);
+                        }
                     }
                     if (edit.getType() == Edit.Type.REPLACE || edit.getType() == Edit.Type.INSERT)
                     {
-                        CacheEntry entry = processEdit(b, edit.getBeginB(), edit.getEndB(), commit);
-                        cache.entries.put(commit.getId().toString(), entry);
+                        for (String def : processEdit(b, edit.getBeginB(), edit.getEndB(), commit))
+                        {
+                            entry.index.add(def);
+                        }
                     }
                 }
+                cache.entries.put(commit.getId().toString(), entry);
             }
 
             @Override
             public void processFileDiff(RevCommit commit, PhpFile b)
             {
-                CacheEntry entry = processEdit(b, 0, b.lines.size(), commit);
+                CacheEntry entry = new CacheEntry(commit);
+                for (String def : processEdit(b, 0, b.lines.size(), commit))
+                {
+                    entry.index.add(def);
+                }
                 cache.entries.put(commit.getId().toString(), entry);
             }
 
@@ -71,7 +88,7 @@ public class Main
             public void processFileDiff(RevCommit commit)
             {
                 // cache commit even if there were no changes the prevent further parsing
-                cache.entries.put(commit.getId().toString(), new CacheEntry());
+                cache.entries.put(commit.getId().toString(), new CacheEntry(commit));
             }
         };
 
@@ -97,30 +114,19 @@ public class Main
         }
     }
 
-    private static CacheEntry processEdit(PhpFile php, int begin, int end, RevCommit commit)
+    private static HashSet<String> processEdit(PhpFile php, int begin, int end, RevCommit commit)
     {
-        CacheEntry entry = new CacheEntry();
+        HashSet<String> list = new HashSet<String>();
         for (int i = begin; i < end; ++i)
         {
             PhpFile.Line line = php.lines.get(i);
             if (line.isFunction())
             {
-                String def = line.toStringFunction();
-                if (!entry.index.containsKey(def))
-                {
-                    entry.index.put(def, new HashSet<String>());
-                }
-                entry.index.get(def).add(commit.getAuthorIdent().getEmailAddress());
+                list.add(line.toStringFunction());
             }
-
-            String def = line.toString();
-            if (!entry.index.containsKey(def))
-            {
-                entry.index.put(def, new HashSet<String>());
-            }
-            entry.index.get(def).add(commit.getAuthorIdent().getEmailAddress());
+            list.add(line.toString());
         }
-        return entry;
+        return list;
     }
 
 }
