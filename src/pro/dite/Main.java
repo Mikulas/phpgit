@@ -25,7 +25,7 @@ public class Main
 
         File repoDir = new File(gitDir);
 
-        final CacheEntry e = cache.entries.get("commit 04997ac4c9f9d883333247a74a1c6fe4a8a24876 1398762580 ----sp");
+        final CacheEntry e = cache.entries.get("commit a0c7ebdb175fc115fac967b1754d3f1033a015b7 1393330398 ----sp");
 
         HeadWalker walker = new HeadWalker(repoDir)
         {
@@ -52,7 +52,10 @@ public class Main
             @Override
             public void processFileDiff(RevCommit commit, EditList edits, PhpFile a, PhpFile b)
             {
-                CacheEntry entry = new CacheEntry(commit);
+                CacheEntry entry = cache.entries.get(commit.getId().toString());
+                if (entry == null) {
+                    entry = new CacheEntry(commit);
+                }
                 for (Edit edit : edits)
                 {
                     if (edit.getType() == Edit.Type.REPLACE || edit.getType() == Edit.Type.DELETE)
