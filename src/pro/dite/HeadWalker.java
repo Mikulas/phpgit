@@ -64,8 +64,8 @@ abstract public class HeadWalker
             if (parent != null)
             {
                 List<DiffEntry> diffs = differ.getEdits(
-                    parent.getTree().getId().toObjectId(),
-                    commit.getTree().getId().toObjectId());
+                        parent.getTree().getId().toObjectId(),
+                        commit.getTree().getId().toObjectId());
 
                 for (DiffEntry diff : diffs)
                 {
@@ -76,25 +76,28 @@ abstract public class HeadWalker
                     }
 
                     String a = diff.getChangeType() == DiffEntry.ChangeType.ADD ? ""
-                        : getBlobContent(diff.getOldId().toObjectId());
+                            : getBlobContent(diff.getOldId().toObjectId());
                     String b = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? ""
-                        : getBlobContent(diff.getNewId().toObjectId());
+                            : getBlobContent(diff.getNewId().toObjectId());
 
                     EditList edits = MyersDiff.INSTANCE.diff(RawTextComparator.WS_IGNORE_ALL, new RawText(a.getBytes()), new RawText(b.getBytes()));
 
-                    //System.out.println(diff.getNewPath());
+//                    System.out.println(diff.getNewPath());
+//                    if (diff.getNewPath().contains("WebGuy"))
+//                    {
+//                        System.out.println("hit");
+//                    }
 
                     try
                     {
                         PhpFile aPhp = new PhpFile(a);
                         PhpFile bPhp = new PhpFile(b);
+                        processFileDiff(commit, edits, aPhp, bPhp);
                     } catch (EmptyStackException e)
                     {
                         System.out.println("Failed parsing");
                         System.out.println(diff.getNewPath());
                     }
-
-                    processFileDiff(commit, edits, a, b);
                 }
             }
             parent = commit;
@@ -110,6 +113,6 @@ abstract public class HeadWalker
         return s.hasNext() ? s.next() : "";
     }
 
-    abstract public void processFileDiff(RevCommit commit, EditList edits, String a, String b) throws IOException;
+    abstract public void processFileDiff(RevCommit commit, EditList edits, PhpFile a, PhpFile b) throws IOException;
 
 }

@@ -34,7 +34,7 @@ public class PhpFile
 
         String[] split;
         try {
-            split = content.split("\\r?\\n");
+            split = content.split("(?=\\r?\\n)");
         } catch (StackOverflowError e)
         {
             return;
@@ -42,6 +42,7 @@ public class PhpFile
 
         for (String line : split)
         {
+            line = line.trim();
             Matcher mNamespace = pNamespace.matcher(line);
             Matcher mClass = pClass.matcher(line);
             Matcher mFunction = pFunction.matcher(line);
@@ -76,6 +77,7 @@ public class PhpFile
             }
             lines.add(new Line(context));
         }
+        lines.add(new Line(context)); // empty line at end of file // TODO check
     }
 
     private String removeComments(String in)
