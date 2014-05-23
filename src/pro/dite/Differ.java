@@ -2,21 +2,18 @@ package pro.dite;
 
 import org.eclipse.jgit.diff.*;
 import org.eclipse.jgit.lib.*;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
-public class Differ
+class Differ
 {
 
-    ObjectReader reader;
+    private final ObjectReader reader;
 
     public Differ(Repository repo)
     {

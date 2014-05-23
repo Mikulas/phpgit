@@ -1,8 +1,5 @@
 package pro.dite;
 
-import com.sun.xml.internal.xsom.impl.Ref;
-
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -10,7 +7,7 @@ import java.util.regex.Pattern;
 public class PhpFile
 {
 
-    ArrayList<Line> lines = new ArrayList<Line>();
+    final ArrayList<Line> lines = new ArrayList<Line>();
 
     public PhpFile(String content) throws EmptyStackException
     {
@@ -89,7 +86,6 @@ public class PhpFile
         StringBuffer resultString = new StringBuffer();
         Matcher mComment = Pattern.compile("/\\*.*?\\*/", Pattern.DOTALL).matcher(in);
         while (mComment.find()) {
-            int lastIndex = 0;
             StringBuilder replacement = new StringBuilder();
             for (int i = countOccurrences(mComment.group(), "\n"); i > 0; --i)
             {
@@ -108,7 +104,6 @@ public class PhpFile
         StringBuffer resultString = new StringBuffer();
         Matcher mDouble = Pattern.compile(regex, Pattern.MULTILINE).matcher(in);
         while (mDouble.find()) {
-            int lastIndex = 0;
             StringBuilder replacement = new StringBuilder();
             for (int i = countOccurrences(mDouble.group(), "\n"); i > 0; --i)
             {
@@ -126,7 +121,6 @@ public class PhpFile
     {
         int count = 0;
         int lastIndex = 0;
-        StringBuilder replacement = new StringBuilder();
         while (lastIndex != -1)
         {
             lastIndex = in.indexOf(find, lastIndex);
@@ -149,7 +143,7 @@ public class PhpFile
 
     public class Context
     {
-        ContextType context;
+        final ContextType context;
         String name;
 
         public Context()
@@ -166,7 +160,7 @@ public class PhpFile
 
     public class Line
     {
-        Stack<Context> context;
+        final Stack<Context> context;
 
         public Line(Stack<Context> context)
         {

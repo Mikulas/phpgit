@@ -1,39 +1,24 @@
 package pro.dite;
 
-import com.sun.org.apache.xpath.internal.operations.And;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.*;
-import org.eclipse.jgit.errors.AmbiguousObjectException;
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevTree;
-import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
-import org.eclipse.jgit.treewalk.TreeWalk;
-import org.eclipse.jgit.treewalk.WorkingTreeIterator;
-import org.eclipse.jgit.treewalk.filter.*;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
-import org.eclipse.jgit.util.io.NullOutputStream;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-abstract public class HeadWalker
+abstract class HeadWalker
 {
 
-    Repository repository;
-    Git git;
-    RevWalk walk;
-    Differ differ;
+    private Repository repository;
+    private Git git;
 
     public HeadWalker(File gitDir) throws IOException
     {
@@ -43,7 +28,6 @@ abstract public class HeadWalker
                 .findGitDir() // scan up the file system tree
                 .build();
         git = new Git(repository);
-        walk = new RevWalk(repository);
     }
 
     public void walk() throws IOException, GitAPIException
@@ -55,7 +39,7 @@ abstract public class HeadWalker
             commits.add(0, commit);
         }
 
-        differ = new Differ(repository);
+        Differ differ = new Differ(repository);
 
         // starting from oldest commit
         RevCommit parent = null;
@@ -63,10 +47,6 @@ abstract public class HeadWalker
         {
             if (parent != null)
             {
-                if (commit.getFullMessage().contains("Registration: fixed more than 100% of people in zone"))
-                {
-                    System.out.println("hit");
-                }
                 List<DiffEntry> diffs = differ.getEdits(
                         parent.getTree().getId().toObjectId(),
                         commit.getTree().getId().toObjectId());
@@ -117,6 +97,6 @@ abstract public class HeadWalker
         return s.hasNext() ? s.next() : "";
     }
 
-    abstract public void processFileDiff(RevCommit commit, EditList edits, PhpFile a, PhpFile b) throws IOException;
+    abstract public void processFileDiff(RevCommit commit, EditList edits, PhpFile a, PhpFile b);
 
 }

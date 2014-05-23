@@ -2,17 +2,12 @@ package pro.dite;
 
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.*;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Set;
 
 public class Main
 {
@@ -62,7 +57,7 @@ public class Main
         }
     }
 
-    static void processEdit(Hashtable<String, HashSet<String>> index, PhpFile php, int begin, int end, RevCommit commit)
+    private static void processEdit(Hashtable<String, HashSet<String>> index, PhpFile php, int begin, int end, RevCommit commit)
     {
         for (int i = begin; i < end; ++i)
         {
