@@ -8,6 +8,8 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectStream;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.File;
@@ -45,45 +47,62 @@ abstract class HeadWalker
         RevCommit parent = null;
         for (RevCommit commit : commits)
         {
-            // TODO process first commit also!
-            if (!shouldSkipCommit(commit) && parent != null)
+            if (!shouldSkipCommit(commit))
             {
-                List<DiffEntry> diffs = differ.getEdits(
-                        parent.getTree().getId().toObjectId(),
-                        commit.getTree().getId().toObjectId());
-
-                for (DiffEntry diff : diffs)
+                if (parent == null)
                 {
-                    if (diff.getNewPath().toLowerCase().contains("vendor/")
-                    || !diff.getNewPath().toLowerCase().endsWith(".php"))
+                    for (ObjectId oid : differ.getFiles(commit.getTree()))
                     {
-                        // TODO allow other extensions as well?
-                        continue;
+                        String b = getBlobContent(oid);
+                        PhpFile bPhp = null;
+                        try
+                        {
+                            bPhp = new PhpFile(b);
+                            processFileDiff(commit, bPhp);
+                        } catch (EmptyStackException e)
+                        {
+                            System.out.println("unknown file failed to parse");
+                        }
                     }
+                }
+                else
+                {
+                    List<DiffEntry> diffs;
+                    diffs = differ.getEdits(
+                            parent.getTree().getId().toObjectId(),
+                            commit.getTree().getId().toObjectId());
 
-                    String a = diff.getChangeType() == DiffEntry.ChangeType.ADD ? ""
-                            : getBlobContent(diff.getOldId().toObjectId());
-                    String b = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? ""
-                            : getBlobContent(diff.getNewId().toObjectId());
-
-                    EditList edits = MyersDiff.INSTANCE.diff(RawTextComparator.WS_IGNORE_ALL, new RawText(a.getBytes()), new RawText(b.getBytes()));
-
-                    try
+                    for (DiffEntry diff : diffs)
                     {
-                        PhpFile aPhp = new PhpFile(a);
-                        PhpFile bPhp = new PhpFile(b);
-                        processFileDiff(commit, edits, aPhp, bPhp);
-                    } catch (EmptyStackException e)
-                    {
-                        System.out.println("Failed parsing");
-                        System.out.println(diff.getNewPath());
+                        if (diff.getNewPath().toLowerCase().contains("vendor/")
+                                || !diff.getNewPath().toLowerCase().endsWith(".php"))
+                        {
+                            // TODO allow other extensions as well?
+                            // TODO refactor with differ
+                            continue;
+                        }
+
+                        String a = diff.getChangeType() == DiffEntry.ChangeType.ADD ? ""
+                                : getBlobContent(diff.getOldId().toObjectId());
+                        String b = diff.getChangeType() == DiffEntry.ChangeType.DELETE ? ""
+                                : getBlobContent(diff.getNewId().toObjectId());
+
+                        EditList edits = MyersDiff.INSTANCE.diff(RawTextComparator.WS_IGNORE_ALL, new RawText(a.getBytes()), new RawText(b.getBytes()));
+
+                        try
+                        {
+                            PhpFile aPhp = new PhpFile(a);
+                            PhpFile bPhp = new PhpFile(b);
+                            processFileDiff(commit, edits, aPhp, bPhp);
+                        } catch (EmptyStackException e)
+                        {
+                            System.out.println(diff.getNewPath() + " failed to parse");
+                            processFileDiff(commit);
+                        }
                     }
                 }
             }
-            if (parent != null)
-            {
-                onCommitDone(commit);
-            }
+            onCommitDone(commit);
             parent = commit;
         }
     }
@@ -102,5 +121,9 @@ abstract class HeadWalker
     }
 
     abstract public void processFileDiff(RevCommit commit, EditList edits, PhpFile a, PhpFile b);
+
+    abstract public void processFileDiff(RevCommit commit, PhpFile bPhp);
+
+    abstract public void processFileDiff(RevCommit commit);
 
 }

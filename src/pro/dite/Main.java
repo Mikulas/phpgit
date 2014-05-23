@@ -59,6 +59,20 @@ public class Main
                     }
                 }
             }
+
+            @Override
+            public void processFileDiff(RevCommit commit, PhpFile b)
+            {
+                CacheEntry entry = processEdit(b, 0, b.lines.size(), commit);
+                cache.entries.put(commit.getId().toString(), entry);
+            }
+
+            @Override
+            public void processFileDiff(RevCommit commit)
+            {
+                // cache commit even if there were no changes the prevent further parsing
+                cache.entries.put(commit.getId().toString(), new CacheEntry());
+            }
         };
 
         walker.walk();
