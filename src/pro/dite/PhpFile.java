@@ -72,9 +72,8 @@ public class PhpFile
             {
                 context.pop();
             }
-            lines.add(new Line(context));
+            lines.add(new Line((Stack<Context>) context.clone()));
         }
-        lines.add(new Line(context)); // empty line at end of file // TODO check
     }
 
     private String removeComments(String in)
@@ -212,11 +211,9 @@ public class PhpFile
                 if (c.context == ContextType.NONE)
                 {
                     continue;
-                } else if (last != null
-                        && last.context == ContextType.CLASS
-                        && c.context == ContextType.FUNCTION)
+                } else if (c.context == ContextType.FUNCTION)
                 {
-                    return str.toString();
+                    continue;
                 } else
                 {
                     str.append("\\");

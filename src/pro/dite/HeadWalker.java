@@ -53,7 +53,8 @@ abstract class HeadWalker
 
                 for (DiffEntry diff : diffs)
                 {
-                    if (!diff.getNewPath().toLowerCase().endsWith(".php"))
+                    if (diff.getNewPath().toLowerCase().contains("vendor/")
+                    || !diff.getNewPath().toLowerCase().endsWith(".php"))
                     {
                         // TODO allow other extensions as well?
                         continue;
@@ -65,12 +66,6 @@ abstract class HeadWalker
                             : getBlobContent(diff.getNewId().toObjectId());
 
                     EditList edits = MyersDiff.INSTANCE.diff(RawTextComparator.WS_IGNORE_ALL, new RawText(a.getBytes()), new RawText(b.getBytes()));
-
-//                    System.out.println(diff.getNewPath());
-//                    if (diff.getNewPath().contains("WebGuy"))
-//                    {
-//                        System.out.println("hit");
-//                    }
 
                     try
                     {
