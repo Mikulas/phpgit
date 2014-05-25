@@ -43,7 +43,8 @@ abstract class HeadWalker
         RevCommit parent = null;
         for (RevCommit commit : commits)
         {
-            if (!shouldSkipCommit(commit))
+            boolean skip = shouldSkipCommit(commit);
+            if (!skip)
             {
                 System.out.println("\n" + commit + "; " + commit.getShortMessage());
                 if (parent == null)
@@ -104,12 +105,12 @@ abstract class HeadWalker
                     }
                 }
             }
-            onCommitDone(commit);
+            onCommitDone(commit, skip);
             parent = commit;
         }
     }
 
-    protected abstract void onCommitDone(RevCommit commit);
+    protected abstract void onCommitDone(RevCommit commit, boolean skip);
 
     protected abstract boolean shouldSkipCommit(RevCommit commit);
 

@@ -1,5 +1,6 @@
 package pro.dite;
 
+import com.sun.tools.javac.util.Pair;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
@@ -36,9 +37,17 @@ public class LogFormatter
             {
                 continue;
             }
-            for (String def : entry.index)
+            for (String def : entry.getSortedRemovals())
             {
-                System.out.println("\t" + def);
+                System.out.println("\t removed " + def);
+            }
+            for (String def : entry.getSortedAdds())
+            {
+                System.out.println("\t added " + def);
+            }
+            for (Pair<String, String> def : entry.getSortedRenames())
+            {
+                System.out.println("\t renamed " + def.fst + " to " + def.snd);
             }
             System.out.print("\n");
         }

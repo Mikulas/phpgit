@@ -1,8 +1,8 @@
 package pro.dite;
 
+import com.sun.tools.javac.util.Pair;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.diff.*;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
@@ -37,11 +37,15 @@ public class Main
         HeadWalker walker = new HeadWalker(repo)
         {
             @Override
-            protected void onCommitDone(RevCommit commit)
+            protected void onCommitDone(RevCommit commit, boolean skip)
             {
                 CacheEntry entry = cache.entries.get(commit.getId().toString());
                 if (entry != null)
                 {
+                    if (!skip)
+                    {
+                        entry.compile();
+                    }
                     for (String def : entry.index)
                     {
                         index.putIfAbsent(def, new HashSet<String>());
@@ -74,8 +78,7 @@ public class Main
                         {
                             if (!isDefOutsideOf(def, a, edit.getBeginA(), edit.getEndA()))
                             {
-                                System.out.println("removed " + def);
-                                // TODO check it's not in another file
+                                entry.removed.add(def);
                             }
                         }
                     }
@@ -109,17 +112,23 @@ public class Main
                         {
                             String from = (String) removed.toArray()[0];
                             String to = (String) added.toArray()[0];
-                            System.out.println("renamed " + from + " to " + to);
+                            entry.renamed.add(new Pair<String, String>(from, to));
                         }
                         else
                         {
-                            for (String rem : removed)
+                            for (String def : removed)
                             {
-                                System.out.println("removed " + rem);
+                                if (!isDefOutsideOf(def, a, edit.getBeginA(), edit.getEndA()))
+                                {
+                                    entry.removed.add(def);
+                                }
                             }
-                            for (String add : added)
+                            for (String def : added)
                             {
-                                System.out.println("added " + add);
+                                if (!isDefOutsideOf(def, b, edit.getBeginB(), edit.getEndB()))
+                                {
+                                    entry.added.add(def);
+                                }
                             }
                         }
                     }
@@ -133,7 +142,7 @@ public class Main
                         {
                             if (!isDefOutsideOf(def, b, edit.getBeginB(), edit.getEndB()))
                             {
-                                System.out.println("added " + def);
+                                entry.added.add(def);
                             }
                         }
                     }
@@ -187,7 +196,7 @@ public class Main
         if (args.length >= 1 && args[0].equals("log"))
         {
             LogFormatter log = new LogFormatter(repo);
-//            log.print(cache);
+            log.print(cache);
         }
         else if (args.length >= 1)
         {
