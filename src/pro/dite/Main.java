@@ -65,22 +65,99 @@ public class Main
                 }
                 for (Edit edit : edits)
                 {
-                    if (edit.getType() == Edit.Type.REPLACE || edit.getType() == Edit.Type.DELETE)
+                    System.out.println("\t\t"+edit);
+                    if (edit.getType() == Edit.Type.DELETE)
                     {
-                        for (String def : processEdit(a, edit.getBeginA(), edit.getEndA(), commit))
+                        HashSet<String> defs = processEdit(a, edit.getBeginA(), edit.getEndA(), commit);
+                        entry.index.addAll(defs);
+                        for (String def : defs)
                         {
-                            entry.index.add(def);
+                            if (!isDefOutsideOf(def, a, edit.getBeginA(), edit.getEndA()))
+                            {
+                                System.out.println("removed " + def);
+                                // TODO check it's not in another file
+                            }
                         }
                     }
-                    if (edit.getType() == Edit.Type.REPLACE || edit.getType() == Edit.Type.INSERT)
+
+                    if (edit.getType() == Edit.Type.REPLACE)
                     {
-                        for (String def : processEdit(b, edit.getBeginB(), edit.getEndB(), commit))
+                        HashSet<String> changesA = processEdit(a, edit.getBeginA(), edit.getEndA(), commit);
+                        HashSet<String> changesB = processEdit(b, edit.getBeginB(), edit.getEndB(), commit);
+                        entry.index.addAll(changesA);
+                        entry.index.addAll(changesB);
+
+                        HashSet<String> removed = new HashSet<String>();
+                        HashSet<String> added = new HashSet<String>();
+                        for (String rem : changesA)
                         {
-                            entry.index.add(def);
+                            if (!changesB.contains(rem))
+                            {
+                                removed.add(rem);
+                            }
+                        }
+                        for (String add : changesB)
+                        {
+                            if (!changesA.contains(add))
+                            {
+                                added.add(add);
+                            }
+                        }
+
+
+                        if (removed.size() == 1 && added.size() == 1)
+                        {
+                            String from = (String) removed.toArray()[0];
+                            String to = (String) added.toArray()[0];
+                            System.out.println("renamed " + from + " to " + to);
+                        }
+                        else
+                        {
+                            for (String rem : removed)
+                            {
+                                System.out.println("removed " + rem);
+                            }
+                            for (String add : added)
+                            {
+                                System.out.println("added " + add);
+                            }
+                        }
+                    }
+
+                    if (edit.getType() == Edit.Type.INSERT)
+                    {
+                        HashSet<String> defs = processEdit(b, edit.getBeginB(), edit.getEndB(), commit);
+                        entry.index.addAll(defs);
+
+                        for (String def : defs)
+                        {
+                            if (!isDefOutsideOf(def, b, edit.getBeginB(), edit.getEndB()))
+                            {
+                                System.out.println("added " + def);
+                            }
                         }
                     }
                 }
                 cache.entries.put(commit.getId().toString(), entry);
+            }
+
+            private boolean isDefOutsideOf(String def, PhpFile php, int begin, int end)
+            {
+                for (int i = 0; i < begin; ++i)
+                {
+                    if (php.lines.get(i).toString().equals(def))
+                    {
+                        return true;
+                    }
+                }
+                for (int i = end + 1; i < php.lines.size(); ++i)
+                {
+                    if (php.lines.get(i).toString().equals(def))
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
 
             @Override
@@ -110,7 +187,7 @@ public class Main
         if (args.length >= 1 && args[0].equals("log"))
         {
             LogFormatter log = new LogFormatter(repo);
-            log.print(cache);
+//            log.print(cache);
         }
         else if (args.length >= 1)
         {

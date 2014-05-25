@@ -45,6 +45,7 @@ abstract class HeadWalker
         {
             if (!shouldSkipCommit(commit))
             {
+                System.out.println("\n" + commit + "; " + commit.getShortMessage());
                 if (parent == null)
                 {
                     for (ObjectId oid : differ.getFiles(commit.getTree()))
@@ -76,6 +77,11 @@ abstract class HeadWalker
                             // TODO allow other extensions as well?
                             // TODO refactor with differ
                             continue;
+                        }
+                        System.out.println("\t"+diff.getNewPath());
+                        if (diff.getNewPath().contains("FeedPresenter.php"))
+                        {
+                            System.out.println("\t"+diff.getNewPath());
                         }
 
                         String a = diff.getChangeType() == DiffEntry.ChangeType.ADD ? ""
