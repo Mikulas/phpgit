@@ -69,7 +69,7 @@ public class Main
                 }
                 for (Edit edit : edits)
                 {
-                    System.out.println("\t\t"+edit);
+//                    System.out.println("\t\t"+edit);
                     if (edit.getType() == Edit.Type.DELETE)
                     {
                         HashSet<String> defs = processEdit(a, edit.getBeginA(), edit.getEndA(), commit);
@@ -112,7 +112,7 @@ public class Main
                         {
                             String from = (String) removed.toArray()[0];
                             String to = (String) added.toArray()[0];
-                            entry.renamed.add(new Pair<String, String>(from, to));
+                            entry.renamed.add(new Rename(from, to));
                         }
                         else
                         {

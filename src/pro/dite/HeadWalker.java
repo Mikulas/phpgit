@@ -46,7 +46,7 @@ abstract class HeadWalker
             boolean skip = shouldSkipCommit(commit);
             if (!skip)
             {
-                System.out.println("\n" + commit + "; " + commit.getShortMessage());
+//                System.out.println("\n" + commit + "; " + commit.getShortMessage());
                 if (parent == null)
                 {
                     for (ObjectId oid : differ.getFiles(commit.getTree()))
@@ -79,11 +79,11 @@ abstract class HeadWalker
                             // TODO refactor with differ
                             continue;
                         }
-                        System.out.println("\t"+diff.getNewPath());
-                        if (diff.getNewPath().contains("FeedPresenter.php"))
-                        {
-                            System.out.println("\t"+diff.getNewPath());
-                        }
+//                        System.out.println("\t"+diff.getNewPath());
+//                        if (diff.getNewPath().contains("FeedPresenter.php"))
+//                        {
+//                            System.out.println("\t"+diff.getNewPath());
+//                        }
 
                         String a = diff.getChangeType() == DiffEntry.ChangeType.ADD ? ""
                                 : getBlobContent(diff.getOldId().toObjectId());

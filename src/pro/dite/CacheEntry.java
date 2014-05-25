@@ -12,7 +12,7 @@ public class CacheEntry implements Serializable
 
     final HashSet<String> removed = new HashSet<String>();
     final HashSet<String> added = new HashSet<String>();
-    final HashSet<Pair<String, String>> renamed = new HashSet<Pair<String, String>>();
+    final HashSet<Rename> renamed = new HashSet<Rename>();
 
     String author;
 
@@ -37,20 +37,20 @@ public class CacheEntry implements Serializable
         return sorted;
     }
 
-    public ArrayList<Pair<String, String>> getSortedRenames()
+    public ArrayList<Rename> getSortedRenames()
     {
-        ArrayList<Pair<String, String>> sorted = new ArrayList<Pair<String, String>>();
+        ArrayList<Rename> sorted = new ArrayList<Rename>();
         sorted.addAll(this.renamed);
-        Collections.sort(sorted, new PairComparator());
+        Collections.sort(sorted, new RenameComparator());
         return sorted;
     }
 
-    private class PairComparator implements Comparator<Pair<String, String>>
+    private class RenameComparator implements Comparator<Rename>
     {
         @Override
-        public int compare(Pair<String, String> o1, Pair<String, String> o2)
+        public int compare(Rename o1, Rename o2)
         {
-            return o1.fst.compareTo(o2.fst);
+            return o1.from.compareTo(o2.from);
         }
     }
 
