@@ -42,7 +42,7 @@ public class LogFormatter
             CacheEntry entry = cache.entries.get(commit.getId().toString());
             System.out.println(ANSI_YELLOW + "commit " + commit.getId().getName() + ANSI_RESET);
             System.out.println("author " + commit.getAuthorIdent().getName() + " <" + commit.getAuthorIdent().getEmailAddress() + ">");
-            System.out.println(commit.getFullMessage());
+            System.out.println("    " + commit.getShortMessage().trim() + "\n");
             if (entry == null)
             {
                 continue;
@@ -53,11 +53,11 @@ public class LogFormatter
             }
             for (String def : entry.getSortedAdds())
             {
-                System.out.println("    added " + def);
+                System.out.println("      added " + def);
             }
             for (Rename def : entry.getSortedRenames())
             {
-                System.out.println("    renamed " + def.from + " to " + def.to);
+                System.out.println("    renamed " + def.from + "\n         to " + def.to);
             }
             for (String def : entry.getSortedChanges())
             {
