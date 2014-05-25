@@ -13,6 +13,7 @@ public class CacheEntry implements Serializable
     final HashSet<String> removed = new HashSet<String>();
     final HashSet<String> added = new HashSet<String>();
     final HashSet<Rename> renamed = new HashSet<Rename>();
+    final HashSet<String> changed = new HashSet<String>();
 
     String author;
 
@@ -37,6 +38,14 @@ public class CacheEntry implements Serializable
         return sorted;
     }
 
+    public ArrayList<String> getSortedChanges()
+    {
+        ArrayList<String> sorted = new ArrayList<String>();
+        sorted.addAll(this.changed);
+        Collections.sort(sorted);
+        return sorted;
+    }
+
     public ArrayList<Rename> getSortedRenames()
     {
         ArrayList<Rename> sorted = new ArrayList<Rename>();
@@ -57,7 +66,6 @@ public class CacheEntry implements Serializable
     public void compile()
     {
         ArrayList<String> intersection = new ArrayList<String>();
-        intersection.add("");
         for (String rem : removed)
         {
             if (added.contains(rem))
@@ -67,8 +75,32 @@ public class CacheEntry implements Serializable
         }
         for (String inter : intersection)
         {
+            changed.add(inter);
             added.remove(inter);
             removed.remove(inter);
+        }
+        added.remove("");
+        removed.remove("");
+
+        for (String def : index)
+        {
+            if (removed.contains(def) || added.contains(def) || def.equals(""))
+            {
+                continue;
+            }
+            boolean isRename = false;
+            for (Rename ren : renamed)
+            {
+                if (ren.from.equals(def) || ren.to.equals(def))
+                {
+                    isRename = true;
+                    break;
+                }
+            }
+            if (!isRename)
+            {
+                changed.add(def);
+            }
         }
     }
 }

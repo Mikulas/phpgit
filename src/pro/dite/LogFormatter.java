@@ -59,6 +59,10 @@ public class LogFormatter
             {
                 System.out.println("    renamed " + def.from + " to " + def.to);
             }
+            for (String def : entry.getSortedChanges())
+            {
+                System.out.println("    changed " + def);
+            }
             System.out.print("\n");
         }
     }
