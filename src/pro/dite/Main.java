@@ -30,10 +30,6 @@ public class Main
         final File cacheFile = new File(gitDir + "/phpgit.bin");
         final Cache cache = Cache.loadFromFile(cacheFile);
 
-        File repoDir = new File(gitDir);
-
-        final CacheEntry e = cache.entries.get("commit a0c7ebdb175fc115fac967b1754d3f1033a015b7 1393330398 ----sp");
-
         HeadWalker walker = new HeadWalker(repo)
         {
             @Override
@@ -154,14 +150,14 @@ public class Main
             {
                 for (int i = 0; i < begin; ++i)
                 {
-                    if (php.lines.get(i).toString().equals(def))
+                    if (php.lines.get(i).toStringFunction().equals(def))
                     {
                         return true;
                     }
                 }
                 for (int i = end + 1; i < php.lines.size(); ++i)
                 {
-                    if (php.lines.get(i).toString().equals(def))
+                    if (php.lines.get(i).toStringFunction().equals(def))
                     {
                         return true;
                     }
