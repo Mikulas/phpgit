@@ -1,0 +1,23 @@
+{
+    "name": "mikulas/phpgit",
+    "require": {
+        "nikic/php-parser": "@dev",
+        "kzykhys/git": "@dev"
+    },
+    "require-dev": {
+        "nette/tester": "~1.1.0",
+        "tracy/tracy": "~2.2.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mikulas",
+            "email": "rullaf@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "scripts": {
+        "post-install-cmd": ["rm -rf tests/fixtures/repo && git clone git@github.com:Mikulas/phpgit-test.git tests/fixtures/repo"],
+        "post-update-cmd": ["rm -rf tests/fixtures/repo && git clone git@github.com:Mikulas/phpgit-test.git tests/fixtures/repo"]
+    }
+}
