@@ -18,7 +18,6 @@ Assert::same([
 
 $changes = $repo->getCommitChanges('511de328');
 Assert::same(3, count($changes));
-dump($changes[0]['changes']);
 Assert::same([
 	'fileA' => 'app/config/Configurator.php',
 	'fileB' => 'app/config/Configurator.php',
@@ -28,5 +27,11 @@ Assert::same([
 		['beginA' => 100, 'lengthA' => 0, 'beginB' => 101, 'lengthB' => 10],
 	],
 ], $changes[0]);
+
+$newFile = $repo->getCommitChanges('ff82630');
+Assert::null($newFile[0]['fileA']);
+
+$removedFile = $repo->getCommitChanges('57dcef6');
+Assert::null($removedFile[1]['fileB']);
 
 Assert::same('05bde416d8744726e4c0aeb55beb33f1', md5($repo->getFile('8608fc1', 'composer.json')));

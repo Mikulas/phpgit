@@ -42,15 +42,15 @@ class Repo
 		$file = NULL;
 		foreach (explode("\n", $out) as $line)
 		{
-			if (strpos($line, '--- a/') === 0)
+			if (strpos($line, '--- ') === 0)
 			{
 				if ($file)
 				{
 					$files[] = $file;
 				}
 				$file = [
-					'fileA' => substr($line, 6),
-					'fileB' => '',
+					'fileA' => strpos($line, '--- /dev/null') === 0 ? NULL : substr($line, 6),
+					'fileB' => NULL,
 					'changes' => [],
 				];
 				continue;
