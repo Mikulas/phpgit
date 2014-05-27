@@ -36,7 +36,6 @@ class ChangeSet
 	{
 		foreach ($edits as $edit)
 		{
-			dump($edit);
 			$removed = $a->getBetweenLines($edit->beginA, $edit->getEndA());
 			$added = $b->getBetweenLines($edit->beginB, $edit->getEndB());
 
@@ -62,6 +61,39 @@ class ChangeSet
 					}
 				}
 
+				foreach ($classA->methods as $methodA)
+				{
+					if (!$methodA->complete)
+					{
+						// TODO mark as change only
+						continue;
+					}
+					foreach ($classB->methods as $methodB)
+					{
+						if ($methodA->name === $methodB->name)
+						{
+							continue 2;
+						}
+					}
+					$this->removedMethods[] = $methodA;
+				}
+
+				foreach ($classB->methods as $methodB)
+				{
+					if (!$methodB->complete)
+					{
+						// TODO mark as change only
+						continue;
+					}
+					foreach ($classA->methods as $methodA)
+					{
+						if ($methodB->name === $methodA->name)
+						{
+							continue 2;
+						}
+					}
+					$this->addedMethods[] = $methodB;
+				}
 			}
 			else
 			{
@@ -85,15 +117,5 @@ class ChangeSet
 			}
 		}
 	}
-
-//	/**
-//	 * @param AClass[] $a
-//	 * @param AClass[] $b
-//	 */
-//	private function getIntersection(array $a, array $b)
-//	{
-//		$inter = [];
-//		foreach ($)
-//	}
 
 }

@@ -5,6 +5,8 @@ namespace Name\Space;
 class ClassName
 {
 
+	public function addedMethod() {}
+
 	/**
 	 * PHPDoc change
 	 *

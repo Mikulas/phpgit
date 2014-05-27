@@ -28,7 +28,7 @@ class ClassName
 class AnotherClass
 {
 
-	public function coolMethod()
+	public function methodToRemove()
 	{
 
 	}

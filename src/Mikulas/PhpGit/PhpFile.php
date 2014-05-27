@@ -46,7 +46,8 @@ class PhpFile
 						$class->methods[] = new AMethod(
 							$method->name,
 							$method->getAttribute('startLine'),
-							$method->getAttribute('endLine')
+							$method->getAttribute('endLine'),
+							$class
 						);
 					}
 
@@ -89,6 +90,7 @@ class PhpFile
 					continue;
 				}
 				$method->complete = $start <= $method->lineFrom && $end >= $method->lineTo;
+				$method->class = $gist;
 				$gist->methods[] = $method;
 			}
 			$result[] = $gist;
