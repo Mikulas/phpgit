@@ -3,6 +3,7 @@
 /** @var \Composer\Autoload\ClassLoader $loader */
 use Mikulas\PhpGit\AClass;
 use Mikulas\PhpGit\AMethod;
+use Mikulas\PhpGit\ChangeSet;
 use Mikulas\PhpGit\PhpFile;
 use Mikulas\PhpGit\Repo;
 
@@ -20,12 +21,13 @@ $start = microtime(TRUE);
 
 $parent = NULL;
 $cache = [];
-$commits = array_reverse($repo->getCommits());
+$commits = $repo->getCommits();
 
 $cacheFile = $dir . '/.git/php_index.bin';
 $index = file_exists($cacheFile) ? unserialize(file_get_contents($cacheFile)) : [];
-$index = [];
-foreach ($commits as $commit)
+
+$printBuildingIndex = 10;
+foreach (array_reverse($commits) as $commit)
 {
 	list($rev, $time, $author, $subject) = $commit;
 	if (isset($index[$rev]))
@@ -34,12 +36,16 @@ foreach ($commits as $commit)
 	}
 	$index[$rev] = [];
 
-	echo "\033[33mcommit $rev\033[0m\n";
-	echo "Author: $author\n";
-	echo "Date: " . date('r', $time) . "\n";
-	echo "    $subject\n";
+	$printBuildingIndex--;
+	if ($printBuildingIndex === 0)
+	{
+		echo "Building index, please wait...\n";
+	}
+	else if ($printBuildingIndex < 0)
+	{
+		echo ".";
+	}
 
-	$printNewline = TRUE;
 	foreach ($repo->getCommitChanges($commit[0]) as $change)
 	{
 		if (stripos(strrev(strToLower($change['fileA'])), 'php') !== 0
@@ -59,7 +65,28 @@ foreach ($commits as $commit)
 		$cache[$parent][$change['fileA']] = $phpB;
 
 		$set = new \Mikulas\PhpGit\ChangeSet($phpA, $phpB, $change['edits']);
+		$index[$rev][] = $set;
+	}
 
+	unset($cache[$parent]);
+	$parent = $commit[0];
+}
+file_put_contents($dir . '/.git/php_index.bin', serialize($index));
+
+foreach ($commits as $commit)
+{
+	list($rev, $time, $author, $subject) = $commit;
+
+	echo "\033[33mcommit $rev\033[0m\n";
+	echo "Author: $author\n";
+	echo "Date: " . date('r', $time) . "\n";
+	echo "    $subject\n";
+
+	$printNewline = TRUE;
+
+	/** @var ChangeSet $set */
+	foreach ($index[$rev] as $set)
+	{
 		if ($printNewline && $set->containsChange())
 		{
 			echo "\n";
@@ -104,11 +131,8 @@ foreach ($commits as $commit)
 		}
 	}
 
-	unset($cache[$parent]);
-	$parent = $commit[0];
 	echo "\n";
 }
-file_put_contents($dir . '/.git/php_index.bin', serialize($index));
 
 function getPhp(Repo $repo, $revision, $path)
 {
@@ -123,8 +147,5 @@ function getPhp(Repo $repo, $revision, $path)
 	return new PhpFile($code);
 }
 
-$code = file_get_contents(__DIR__ . '/tests/fixtures/test.php');
-$php = new PhpFile($code);
-dump($php);
-dump(round(microtime(TRUE) - $start, 1) . ' seconds');
-dump(memory_get_peak_usage(TRUE));
+dump(round((microtime(TRUE) - $start) * 1000, 1) . ' ms');
+dump(round(memory_get_peak_usage(TRUE) / 1e6, 2) . ' MB');
