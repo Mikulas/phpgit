@@ -7,37 +7,37 @@ class ChangeSet
 {
 
 	/** @var array */
-	public $addedClasses;
+	public $addedClasses = [];
 
 	/** @var array */
-	public $addedMethods;
+	public $addedMethods = [];
 
 	/** @var array */
-	public $removedClasses;
+	public $removedClasses = [];
 
 	/** @var array */
-	public $removedMethods;
+	public $removedMethods = [];
 
 	/** @var array */
-	public $renamedClasses;
+	public $renamedClasses = [];
 
 	/** @var array */
-	public $renamedMethods;
+	public $renamedMethods = [];
 
 	/** @var array */
-	public $changes;
+	public $changes = [];
 
 	/**
-	 * @param PhpFile $a
-	 * @param PhpFile $b
+	 * @param PhpFile|NULL $a
+	 * @param PhpFile|NULL $b
 	 * @param Edit[] $edits
 	 */
-	public function __construct(PhpFile $a, PhpFile $b, array $edits)
+	public function __construct($a, $b, array $edits)
 	{
 		foreach ($edits as $edit)
 		{
-			$removed = $a->getBetweenLines($edit->beginA, $edit->getEndA());
-			$added = $b->getBetweenLines($edit->beginB, $edit->getEndB());
+			$removed = $a ? $a->getBetweenLines($edit->beginA, $edit->getEndA()) : [];
+			$added = $b ? $b->getBetweenLines($edit->beginB, $edit->getEndB()) : [];
 
 			if (count($removed) === 1 && count($added) === 1)
 			{

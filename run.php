@@ -1,6 +1,7 @@
 <?php
 
 /** @var \Composer\Autoload\ClassLoader $loader */
+use Mikulas\PhpGit\AMethod;
 use Mikulas\PhpGit\PhpFile;
 use Mikulas\PhpGit\Repo;
 
@@ -36,8 +37,6 @@ foreach ($commits as $commit)
 
 	foreach ($repo->getCommitChanges($commit[0]) as $change)
 	{
-//		echo "    $change[fileA] : $change[fileB]\n";
-
 		if (stripos(strrev(strToLower($change['fileA'])), 'php') !== 0
 		 && stripos(strrev(strToLower($change['fileB'])), 'php') !== 0)
 		{
@@ -54,49 +53,39 @@ foreach ($commits as $commit)
 			: getPhp($repo, $rev, $change['fileB']);
 		$cache[$parent][$change['fileA']] = $phpB;
 
-		foreach ($change['changes'] as $edit)
+		$set = new \Mikulas\PhpGit\ChangeSet($phpA, $phpB, $change['edits']);
+		foreach ($set->removedClasses as $class)
 		{
-			$removed = [];
-			if ($phpA && $edit['lengthA'] > 0)
-			{
-				$removed = array_merge($removed, $phpA->getBetweenLines($edit['beginA'], $edit['beginA'] + $edit['lengthA'] - 1));
-			}
-			$added = [];
-			if ($phpB && $edit['lengthB'] > 0)
-			{
-				$added = array_merge($added, $phpB->getBetweenLines($edit['beginB'], $edit['beginB'] + $edit['lengthB'] - 1));
-			}
-
-			if ($removed && $added)
-			{
-				if (count($removed) === 1 && count($added) === 1)
-				{
-					if (count($removed[0]->methods) === 1 && count($added[0]->methods) === 1)
-					{
-						$old = $removed[0]->methods[0];
-						$new = $added[0]->methods[0];
-						if ($old->name !== $new->name)
-						{
-							$class = $removed[0];
-							echo "- renamed {$class}::{$old}\n";
-							echo "-      to {$class}::{$new}\n";
-						}
-					}
-				}
-			}
-			else
-			{
-				foreach ($removed as $rem)
-				{
-					echo "- removed {$rem}\n";
-				}
-				foreach ($added as $add)
-				{
-					echo "-   added {$add}\n";
-				}
-			}
+			echo "    removed $class\n";
 		}
-
+		foreach ($set->removedMethods as $method)
+		{
+			echo "    removed $method\n";
+		}
+		foreach ($set->renamedClasses as $node)
+		{
+			/** @var AClass $a */
+			/** @var AClass $b */
+			list($a, $b) = $node;
+			echo "    renamed $a\n";
+			echo "         to $b\n";
+		}
+		foreach ($set->renamedMethods as $node)
+		{
+			/** @var AMethod $a */
+			/** @var AMethod $b */
+			list($a, $b) = $node;
+			echo "    renamed $a\n";
+			echo "         to $b\n";
+		}
+		foreach ($set->addedClasses as $class)
+		{
+			echo "      added $class\n";
+		}
+		foreach ($set->addedMethods as $method)
+		{
+			echo "      added $method\n";
+		}
 	}
 
 	unset($cache[$parent]);
