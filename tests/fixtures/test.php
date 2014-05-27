@@ -18,4 +18,19 @@ class ClassName
 		return $test;
 	}
 
+	public function anotherMethod()
+	{
+
+	}
+
+}
+
+class AnotherClass
+{
+
+	public function coolMethod()
+	{
+
+	}
+
 }

@@ -12,7 +12,7 @@ class PhpFile
 	private $namespace = NULL;
 
 	/** @var AClass[] */
-	private $clases = [];
+	private $classes = [];
 
 	public function __construct($code)
 	{
@@ -36,7 +36,8 @@ class PhpFile
 					$class = new AClass(
 						$node->name,
 						$node->getAttribute('startLine'),
-						$node->getAttribute('endLine')
+						$node->getAttribute('endLine'),
+						$this->namespace
 					);
 
 					/** @var \PhpParser\Node\Stmt\ClassMethod $method */
@@ -49,12 +50,47 @@ class PhpFile
 						);
 					}
 
-					$this->clases[] = $class;
+					$this->classes[] = $class;
 				}
 			}
 
 		} catch (PhpParser\Error $e) {
 			echo 'Parse Error: ', $e->getMessage();
 		}
+	}
+
+	/**
+	 * @param int $start line inclusive
+	 * @param int $end line inclusive
+	 *
+	 * @return AClass[]
+	 */
+	public function getBetweenLines($start, $end)
+	{
+		$result = [];
+		foreach ($this->classes as $class)
+		{
+			// remove class { } or { } class
+			// but allow cla{ss } and {cl}ass
+			if ($class->lineTo < $start || $class->lineFrom > $end)
+			{
+				continue;
+			}
+			$gist = clone $class;
+			$gist->methods = [];
+			foreach ($class->methods as $method)
+			{
+				// remove method { } or { } method
+				// but allow neth{od } and {me}thod
+				if ($method->lineTo < $start || $method->lineFrom > $end)
+				{
+					continue;
+				}
+				$gist->methods[] = $method;
+			}
+			$result[] = $gist;
+		}
+
+		return $result;
 	}
 }
