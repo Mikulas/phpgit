@@ -10,6 +10,7 @@ https://github.com/mikulas/phpgit-test/commit/059314aee437ebb181488337be8d7fb5ce
 phpdiff as commit hook
 
 TODO:
+	fix class shows as removed https://github.com/Mikulas/phpgit-test/commit/6f4b5efbb8515b9529d61f576608b34b7a6dea49
 	fix class rename
 	fix renames over files
 	list who introduced method, list all author, show by last change and line out
