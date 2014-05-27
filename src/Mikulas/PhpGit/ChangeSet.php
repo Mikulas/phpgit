@@ -27,6 +27,9 @@ class ChangeSet
 	/** @var array */
 	public $changedMethods = [];
 
+	/** @var array*/
+	public $changedMethodParameters = [];
+
 	/**
 	 * @param PhpFile|NULL $a
 	 * @param PhpFile|NULL $b
@@ -44,12 +47,10 @@ class ChangeSet
 				$classA = $removed[0];
 				$classB = $added[0];
 
-				$classRenamed = FALSE;
 				$containsSignatureA = $edit->beginA <= $classA->lineFrom && $edit->getEndA() >= $classA->lineFrom;
 				$containsSignatureB = $edit->beginB <= $classB->lineFrom && $edit->getEndB() >= $classA->lineFrom;
 				if ($classA->name !== $classB->name && $containsSignatureA && $containsSignatureB)
 				{
-					$classRenamed = TRUE;
 					$this->renamedClasses[] = [$classA, $classB];
 				}
 
@@ -60,6 +61,12 @@ class ChangeSet
 					if ($methodA->name !== $methodB->name)
 					{
 						$this->renamedMethods[] = [$methodA, $methodB];
+					}
+					$methodSignatureA = implode(', ', $methodA->getTypedParams());
+					$methodSignatureB = implode(', ', $methodB->getTypedParams());
+					if ($methodSignatureA !== $methodSignatureB)
+					{
+						$this->changedMethodParameters[(string) $methodB] = [$methodA, $methodB];
 					}
 				}
 
@@ -125,7 +132,7 @@ class ChangeSet
 		{
 			foreach ($this->addedMethods as $added)
 			{
-				if ($method === $added)
+				if ((string) $method === (string) $added)
 				{
 					unset($this->changedMethods[$i]);
 					continue 2;
@@ -133,7 +140,7 @@ class ChangeSet
 			}
 			foreach ($this->removedMethods as $removed)
 			{
-				if ($method === $removed)
+				if ((string) $method === (string) $removed)
 				{
 					unset($this->changedMethods[$i]);
 					continue 2;
@@ -142,19 +149,28 @@ class ChangeSet
 			foreach ($this->renamedMethods as $node)
 			{
 				list($a, $b) = $node;
-				if ($method === $a || $method === $b)
+				if ((string) $method === (string) $a || (string) $method === (string) $b)
+				{
+					unset($this->changedMethods[$i]);
+					continue 2;
+				}
+			}
+			foreach ($this->changedMethodParameters as $node)
+			{
+				list($a, $b) = $node;
+				if ((string) $method === (string) $a || (string) $method === (string) $b)
 				{
 					unset($this->changedMethods[$i]);
 					continue 2;
 				}
 			}
 
-			if (isset($signatures[(string) $method]))
+			if (isset($signatures[$method->name]))
 			{
 				unset($this->changedMethods[$i]);
 				continue;
 			}
-			$signatures[(string) $method] = TRUE;
+			$signatures[$method->name] = TRUE;
 		}
 	}
 
@@ -169,7 +185,8 @@ class ChangeSet
 			|| $this->removedMethods
 			|| $this->renamedClasses
 			|| $this->renamedMethods
-			|| $this->changedMethods;
+			|| $this->changedMethods
+			|| $this->changedMethodParameters;
 	}
 
 }

@@ -64,7 +64,7 @@ foreach (array_reverse($commits) as $commit)
 			: getPhp($repo, $rev, $change['fileB']);
 		$cache[$parent][$change['fileA']] = $phpB;
 
-		$set = new \Mikulas\PhpGit\ChangeSet($phpA, $phpB, $change['edits']);
+		$set = new ChangeSet($phpA, $phpB, $change['edits']);
 		$index[$rev][] = $set;
 	}
 
@@ -124,6 +124,12 @@ foreach ($commits as $commit)
 		foreach ($set->addedMethods as $method)
 		{
 			echo "      added $method\n";
+		}
+		foreach ($set->changedMethodParameters as $node)
+		{
+			list($methodA, $methodB) = $node;
+			echo "    changed $methodA\n";
+			echo "         to $methodB\n";
 		}
 		foreach ($set->changedMethods as $method)
 		{

@@ -30,13 +30,18 @@ class AMethod extends CodeBlock
 
 	public function __toString()
 	{
+		$ps = $this->getParamSignature();
+		return "{$this->class}::{$this->name}($ps)";
+	}
+
+	public function getParamSignature()
+	{
 		$params = [];
 		foreach ($this->getTypedParams() as $name => $type)
 		{
 			$params[] = ltrim("$type \$$name");
 		}
-		$ip = implode(', ', $params);
-		return "{$this->class}::{$this->name}($ip)";
+		return implode(', ', $params);
 	}
 
 	public function getTypedParams()

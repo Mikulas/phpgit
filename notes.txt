@@ -9,4 +9,7 @@ https://github.com/mikulas/phpgit-test/commit/059314aee437ebb181488337be8d7fb5ce
 
 phpdiff as commit hook
 
-list who introduced method, list all author, show by last change and line out
+TODO:
+	fix class rename
+	fix renames over files
+	list who introduced method, list all author, show by last change and line out

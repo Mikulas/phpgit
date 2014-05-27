@@ -8,7 +8,7 @@ class ClassName
 	/**
 	 * @param ClassName $arg1
 	 * @param array $arg2
-	 * @param null $arg3
+	 * @param NULL|string $arg3
 	 *
 	 * @return string
 	 */

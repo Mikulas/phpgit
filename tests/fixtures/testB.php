@@ -11,8 +11,8 @@ class ClassName
 	 * PHPDoc change
 	 *
 	 * @param ClassName $arg1
-	 * @param array $arg2
-	 * @param null $arg3
+	 * @param Foo[] $arg2
+	 * @param NULL|string $arg3
 	 *
 	 * @return string
 	 */
