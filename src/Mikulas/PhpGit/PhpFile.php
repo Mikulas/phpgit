@@ -12,7 +12,7 @@ class PhpFile
 	private $namespace = NULL;
 
 	/** @var AClass[] */
-	private $classes = [];
+	public $classes = [];
 
 	public function __construct($code)
 	{

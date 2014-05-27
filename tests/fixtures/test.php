@@ -12,7 +12,7 @@ class ClassName
 	 *
 	 * @return string
 	 */
-	public function methodName($arg1, array $arg2, $arg3 = NULL)
+	public function changedMethod($arg1, array $arg2, $arg3 = NULL)
 	{
 		$test = 'trap function methodName() {}';
 		return $test;

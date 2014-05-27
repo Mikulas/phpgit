@@ -25,7 +25,7 @@ class ChangeSet
 	public $renamedMethods = [];
 
 	/** @var array */
-	public $changes = [];
+	public $changedMethods = [];
 
 	/**
 	 * @param PhpFile|NULL $a
@@ -44,10 +44,12 @@ class ChangeSet
 				$classA = $removed[0];
 				$classB = $added[0];
 
+				$classRenamed = FALSE;
 				$containsSignatureA = $edit->beginA <= $classA->lineFrom && $edit->getEndA() >= $classA->lineFrom;
 				$containsSignatureB = $edit->beginB <= $classB->lineFrom && $edit->getEndB() >= $classA->lineFrom;
 				if ($classA->name !== $classB->name && $containsSignatureA && $containsSignatureB)
 				{
+					$classRenamed = TRUE;
 					$this->renamedClasses[] = [$classA, $classB];
 				}
 
@@ -65,13 +67,14 @@ class ChangeSet
 				{
 					if (!$methodA->complete)
 					{
-						// TODO mark as change only
+						$this->changedMethods[] = $methodA;
 						continue;
 					}
 					foreach ($classB->methods as $methodB)
 					{
 						if ($methodA->name === $methodB->name)
 						{
+							// TODO what case is this
 							continue 2;
 						}
 					}
@@ -82,7 +85,7 @@ class ChangeSet
 				{
 					if (!$methodB->complete)
 					{
-						// TODO mark as change only
+						$this->changedMethods[] = $methodB;
 						continue;
 					}
 					foreach ($classA->methods as $methodA)
@@ -115,6 +118,43 @@ class ChangeSet
 					$this->removedClasses[] = $removedClass;
 				}
 			}
+		}
+
+		$signatures = [];
+		foreach ($this->changedMethods as $i => $method)
+		{
+			foreach ($this->addedMethods as $added)
+			{
+				if ($method === $added)
+				{
+					unset($this->changedMethods[$i]);
+					continue 2;
+				}
+			}
+			foreach ($this->removedMethods as $removed)
+			{
+				if ($method === $removed)
+				{
+					unset($this->changedMethods[$i]);
+					continue 2;
+				}
+			}
+			foreach ($this->renamedMethods as $node)
+			{
+				list($a, $b) = $node;
+				if ($method === $a || $method === $b)
+				{
+					unset($this->changedMethods[$i]);
+					continue 2;
+				}
+			}
+
+			if (isset($signatures[(string) $method]))
+			{
+				unset($this->changedMethods[$i]);
+				continue;
+			}
+			$signatures[(string) $method] = TRUE;
 		}
 	}
 

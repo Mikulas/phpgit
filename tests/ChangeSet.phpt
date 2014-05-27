@@ -44,3 +44,6 @@ Assert::same('methodToRemove', $set->removedMethods[0]->name);
 
 Assert::same(1, count($set->addedMethods));
 Assert::same('addedMethod', $set->addedMethods[0]->name);
+
+Assert::same(1, count($set->changedMethods));
+Assert::same('changedMethod', $set->changedMethods[0]->name);
