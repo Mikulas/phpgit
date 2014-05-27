@@ -158,4 +158,18 @@ class ChangeSet
 		}
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function containsChange()
+	{
+		return $this->addedClasses
+			|| $this->addedMethods
+			|| $this->removedClasses
+			|| $this->removedMethods
+			|| $this->renamedClasses
+			|| $this->renamedMethods
+			|| $this->changedMethods;
+	}
+
 }

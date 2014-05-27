@@ -1,6 +1,7 @@
 <?php
 
 /** @var \Composer\Autoload\ClassLoader $loader */
+use Mikulas\PhpGit\AClass;
 use Mikulas\PhpGit\AMethod;
 use Mikulas\PhpGit\PhpFile;
 use Mikulas\PhpGit\Repo;
@@ -26,15 +27,19 @@ $index = file_exists($cacheFile) ? unserialize(file_get_contents($cacheFile)) : 
 $index = [];
 foreach ($commits as $commit)
 {
-	$rev = $commit[0];
+	list($rev, $time, $author, $subject) = $commit;
 	if (isset($index[$rev]))
 	{
 		continue;
 	}
 	$index[$rev] = [];
 
-	echo "$rev\n$commit[3]\n";
+	echo "\033[33mcommit $rev\033[0m\n";
+	echo "Author: $author\n";
+	echo "Date: " . date('r', $time) . "\n";
+	echo "    $subject\n";
 
+	$printNewline = TRUE;
 	foreach ($repo->getCommitChanges($commit[0]) as $change)
 	{
 		if (stripos(strrev(strToLower($change['fileA'])), 'php') !== 0
@@ -54,6 +59,13 @@ foreach ($commits as $commit)
 		$cache[$parent][$change['fileA']] = $phpB;
 
 		$set = new \Mikulas\PhpGit\ChangeSet($phpA, $phpB, $change['edits']);
+
+		if ($printNewline && $set->containsChange())
+		{
+			echo "\n";
+			$printNewline = FALSE;
+		}
+
 		foreach ($set->removedClasses as $class)
 		{
 			echo "    removed $class\n";
@@ -85,6 +97,10 @@ foreach ($commits as $commit)
 		foreach ($set->addedMethods as $method)
 		{
 			echo "      added $method\n";
+		}
+		foreach ($set->changedMethods as $method)
+		{
+			echo "    changed $method\n";
 		}
 	}
 

@@ -1,2 +1,8 @@
 file renamed
 cffcc65398fba565cd67134b5d4800b93b78716b
+
+renames
+https://github.com/Mikulas/phpgit-test/commit/a2a5b7bff489a5269ae9b549f567c55fb0966840
+
+class rename not working
+https://github.com/mikulas/phpgit-test/commit/059314aee437ebb181488337be8d7fb5cecc62f0
