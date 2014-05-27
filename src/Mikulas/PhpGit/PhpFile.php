@@ -47,7 +47,9 @@ class PhpFile
 							$method->name,
 							$method->getAttribute('startLine'),
 							$method->getAttribute('endLine'),
-							$class
+							$class,
+							$method->params,
+							$method->getDocComment()
 						);
 					}
 

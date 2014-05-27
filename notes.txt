@@ -8,3 +8,5 @@ class rename not working
 https://github.com/mikulas/phpgit-test/commit/059314aee437ebb181488337be8d7fb5cecc62f0
 
 phpdiff as commit hook
+
+list who introduced method, list all author, show by last change and line out
