@@ -18,15 +18,12 @@ Assert::same([
 
 $changes = $repo->getCommitChanges('511de328');
 Assert::same(3, count($changes));
-Assert::same([
-	'fileA' => 'app/config/Configurator.php',
-	'fileB' => 'app/config/Configurator.php',
-	'changes' => [
-		['beginA' => 17, 'lengthA' => 1, 'beginB' => 17, 'lengthB' => 1],
-		['beginA' => 62, 'lengthA' => 1, 'beginB' => 62, 'lengthB' => 1],
-		['beginA' => 100, 'lengthA' => 0, 'beginB' => 101, 'lengthB' => 10],
-	],
-], $changes[0]);
+Assert::same('app/config/Configurator.php', $changes[0]['fileA']);
+Assert::same('app/config/Configurator.php', $changes[0]['fileB']);
+Assert::same(17, $changes[0]['edits'][0]->beginA);
+Assert::same(1, $changes[0]['edits'][0]->lengthA);
+Assert::same(17, $changes[0]['edits'][0]->beginB);
+Assert::same(1, $changes[0]['edits'][0]->lengthB);
 
 $newFile = $repo->getCommitChanges('ff82630');
 Assert::null($newFile[0]['fileA']);

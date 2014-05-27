@@ -6,6 +6,8 @@ class ClassName
 {
 
 	/**
+	 * PHPDoc change
+	 *
 	 * @param ClassName $arg1
 	 * @param array $arg2
 	 * @param null $arg3
@@ -15,28 +17,27 @@ class ClassName
 	public function methodName($arg1, array $arg2, $arg3 = NULL)
 	{
 		$test = 'trap function methodName() {}';
+		$change = TRUE;
 		return $test;
 	}
 
-	public function anotherMethod()
+	public function renamedMethod()
 	{
 
 	}
 
 }
 
-class AnotherClass
+class RenamedClass
 {
-
-	public function coolMethod()
-	{
-
-	}
 
 }
 
 // something something
 
-// delimiter 2
+class NewClass
+{
 
-class ToRemove {}
+}
+
+// delimiter 2

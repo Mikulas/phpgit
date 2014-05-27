@@ -18,3 +18,8 @@ $found = $php->getBetweenLines(24, 33);
 Assert::same(2, count($found));
 Assert::same(1, count($found[0]->methods));
 Assert::same(1, count($found[1]->methods));
+
+$found = $php->getBetweenLines(17, 18);
+Assert::same(FALSE, $found[0]->methods[0]->complete);
+$found = $php->getBetweenLines(15, 19);
+Assert::same(TRUE, $found[0]->methods[0]->complete);

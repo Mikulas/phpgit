@@ -51,7 +51,7 @@ class Repo
 				$file = [
 					'fileA' => strpos($line, '--- /dev/null') === 0 ? NULL : substr($line, 6),
 					'fileB' => NULL,
-					'changes' => [],
+					'edits' => [],
 				];
 				continue;
 			}
@@ -65,12 +65,7 @@ class Repo
 				list($tmp, $from, $to) = explode(' ', $line);
 				list($beginA, $lengthA) = explode(',', $from) + [NULL, 1];
 				list($beginB, $lengthB) = explode(',', $to) + [NULL, 1];
-				$file['changes'][] = [
-					'beginA' => abs($beginA),
-					'lengthA' => (int) $lengthA,
-					'beginB' => (int) $beginB,
-					'lengthB' => (int) $lengthB,
-				];
+				$file['edits'][] = new Edit(abs($beginA), $lengthA, $beginB, $lengthB);
 			}
 		}
 		$files[] = $file;

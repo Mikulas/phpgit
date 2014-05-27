@@ -15,6 +15,9 @@ abstract class CodeBlock
 	/** @var int */
 	public $lineTo;
 
+	/** @var boolean was this code block completely removed or added? */
+	public $complete;
+
 	/**
 	 * @param string $name
 	 * @param int $lineFrom

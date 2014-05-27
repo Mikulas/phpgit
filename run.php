@@ -78,11 +78,21 @@ foreach ($commits as $commit)
 						if ($old->name !== $new->name)
 						{
 							$class = $removed[0];
-							$cname = "{$class->namespace}\\{$class->name}";
-							echo "renamed {$cname}::{$old->name}\n";
-							echo "     to {$cname}::{$new->name}\n";
+							echo "- renamed {$class}::{$old}\n";
+							echo "-      to {$class}::{$new}\n";
 						}
 					}
+				}
+			}
+			else
+			{
+				foreach ($removed as $rem)
+				{
+					echo "- removed {$rem}\n";
+				}
+				foreach ($added as $add)
+				{
+					echo "-   added {$add}\n";
 				}
 			}
 		}

@@ -18,4 +18,9 @@ class AClass extends CodeBlock
 		$this->namespace = $namespace;
 	}
 
+	public function __toString()
+	{
+		return "{$this->namespace}\\{$this->name}";
+	}
+
 }

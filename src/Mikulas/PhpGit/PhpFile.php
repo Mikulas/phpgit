@@ -68,6 +68,7 @@ class PhpFile
 	public function getBetweenLines($start, $end)
 	{
 		$result = [];
+
 		foreach ($this->classes as $class)
 		{
 			// remove class { } or { } class
@@ -77,6 +78,7 @@ class PhpFile
 				continue;
 			}
 			$gist = clone $class;
+			$gist->complete = $start <= $class->lineFrom && $end >= $class->lineTo;
 			$gist->methods = [];
 			foreach ($class->methods as $method)
 			{
@@ -86,6 +88,7 @@ class PhpFile
 				{
 					continue;
 				}
+				$method->complete = $start <= $method->lineFrom && $end >= $method->lineTo;
 				$gist->methods[] = $method;
 			}
 			$result[] = $gist;
