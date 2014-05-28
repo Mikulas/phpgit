@@ -13,3 +13,6 @@ $a = new PhpFile($code);
 
 Assert::same([6, 14], $a->classes[0]->methods[0]->getSignatureLines());
 Assert::same([19, 23], $a->classes[0]->methods[1]->getSignatureLines());
+
+Assert::same([15, 17], $a->classes[0]->methods[0]->getBodyLines());
+Assert::same([24, 25], $a->classes[0]->methods[1]->getBodyLines());
