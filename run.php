@@ -13,6 +13,7 @@ $loader->add('Mikulas\\PhpGit\\', __DIR__ . '/src');
 
 \Tracy\Debugger::enable(\Tracy\Debugger::DEVELOPMENT);
 \Tracy\Debugger::$strictMode = TRUE;
+\Tracy\Debugger::$maxDepth = 4;
 
 $dir = __DIR__ . '/tests/fixtures/repo';
 $repo = new Repo($dir);

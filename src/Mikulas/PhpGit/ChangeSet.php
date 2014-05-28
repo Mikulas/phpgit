@@ -58,15 +58,24 @@ class ChangeSet
 				{
 					$methodA = $classA->methods[0];
 					$methodB = $classB->methods[0];
-					if ($methodA->name !== $methodB->name)
-					{
-						$this->renamedMethods[] = [$methodA, $methodB];
-					}
 					$methodSignatureA = implode(', ', $methodA->getTypedParams());
 					$methodSignatureB = implode(', ', $methodB->getTypedParams());
-					if ($methodSignatureA !== $methodSignatureB)
+					if ($methodA->name !== $methodB->name
+					&& $methodSignatureA !== $methodSignatureB)
 					{
-						$this->changedMethodParameters[(string) $methodB] = [$methodA, $methodB];
+						$this->removedMethods[] = $methodA;
+						$this->addedMethods[] = $methodB;
+					}
+					else
+					{
+						if ($methodA->name !== $methodB->name)
+						{
+							$this->renamedMethods[] = [$methodA, $methodB];
+						}
+						if ($methodSignatureA !== $methodSignatureB)
+						{
+							$this->changedMethodParameters[(string) $methodB] = [$methodA, $methodB];
+						}
 					}
 				}
 

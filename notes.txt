@@ -10,6 +10,7 @@ https://github.com/mikulas/phpgit-test/commit/059314aee437ebb181488337be8d7fb5ce
 phpdiff as commit hook
 
 TODO:
+	fix class both renamed and changed params f84b688d3c6c6d3d8c3f746fb60d7087dd6cc034
 	fix class shows as removed https://github.com/Mikulas/phpgit-test/commit/6f4b5efbb8515b9529d61f576608b34b7a6dea49
 	fix class rename
 	fix renames over files

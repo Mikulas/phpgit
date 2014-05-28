@@ -57,3 +57,21 @@ $signA = $methods[0]->getParamSignature();
 $signB = $methods[1]->getParamSignature();
 Assert::same('ClassName $arg1, array $arg2, NULL|string $arg3', $signA);
 Assert::same('ClassName $arg1, Foo[] $arg2, NULL|string $arg3', $signB);
+
+
+
+$code = file_get_contents(__DIR__ . '/fixtures/changed_removed/a.php');
+$a = new PhpFile($code);
+$code = file_get_contents(__DIR__ . '/fixtures/changed_removed/b.php');
+$b = new PhpFile($code);
+
+$edits = [
+	new Edit(6, 1, 6, 1),
+];
+
+$set = new ChangeSet($a, $b, $edits);
+Assert::same(1, count($set->removedMethods));
+Assert::same('removed', $set->removedMethods[0]->name);
+
+Assert::same(1, count($set->addedMethods));
+Assert::same('added', $set->addedMethods[0]->name);

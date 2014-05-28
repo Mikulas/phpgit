@@ -28,6 +28,22 @@ class AMethod extends CodeBlock
 		$this->phpdoc = $phpdoc;
 	}
 
+	/**
+	 * @return int[] begin end
+	 */
+	public function getSignatureLines()
+	{
+		/** @var Param[] $p */
+		$p = $this->params;
+		$from = $this->phpdoc ? $this->phpdoc->getLine() : $this->lineFrom;
+		if (count($p) === 0)
+		{
+			return [$from, $this->lineTo];
+		}
+
+		return [$from, max($p)->getAttribute('endLine')];
+	}
+
 	public function __toString()
 	{
 		$ps = $this->getParamSignature();
