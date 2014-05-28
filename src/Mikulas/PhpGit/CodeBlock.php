@@ -3,6 +3,9 @@
 namespace Mikulas\PhpGit;
 
 
+use PhpParser\Comment\Doc;
+
+
 abstract class CodeBlock
 {
 
@@ -15,19 +18,30 @@ abstract class CodeBlock
 	/** @var int */
 	public $lineTo;
 
-	/** @var boolean was this code block completely removed or added? */
+	/** @var NULL|boolean was this code block completely removed or added? */
 	public $complete;
+
+	/** @var NULL|boolean */
+	public $changedSignature;
+
+	/** @var NULL|boolean */
+	public $changedBody;
+
+	/** @var Doc */
+	protected $phpdoc;
 
 	/**
 	 * @param string $name
 	 * @param int $lineFrom
 	 * @param int $lineTo
+	 * @param Doc $phpdoc
 	 */
-	public function __construct($name, $lineFrom, $lineTo)
+	public function __construct($name, $lineFrom, $lineTo, $phpdoc)
 	{
 		$this->name = $name;
 		$this->lineFrom = $lineFrom;
 		$this->lineTo = $lineTo;
+		$this->phpdoc = $phpdoc;
 	}
 
 }

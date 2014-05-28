@@ -37,6 +37,7 @@ class PhpFile
 						$node->name,
 						$node->getAttribute('startLine'),
 						$node->getAttribute('endLine'),
+						$node->getDocComment(),
 						$this->namespace
 					);
 
@@ -47,9 +48,9 @@ class PhpFile
 							$method->name,
 							$method->getAttribute('startLine'),
 							$method->getAttribute('endLine'),
+							$method->getDocComment(),
 							$class,
-							$method->params,
-							$method->getDocComment()
+							$method->params
 						);
 					}
 
@@ -92,6 +93,13 @@ class PhpFile
 					continue;
 				}
 				$method->complete = $start <= $method->lineFrom && $end >= $method->lineTo;
+
+				list($signFrom, $signTo) = $method->getSignatureLines();
+				$method->changedSignature = !($signTo < $start || $signFrom > $end);
+				list($bodyFrom, $bodyTo) = $method->getBodyLines();
+				$method->changedBody = !($bodyTo < $start || $bodyFrom > $end);
+				dump($bodyFrom, $bodyTo, $start, $end); // 16, 19, 17, 18
+
 				$method->class = $gist;
 				$gist->methods[] = $method;
 			}

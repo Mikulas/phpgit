@@ -20,12 +20,11 @@ class AMethod extends CodeBlock
 	/** @var Doc */
 	public $phpdoc;
 
-	public function __construct($name, $lineFrom, $lineTo, AClass $class, array $params, $phpdoc)
+	public function __construct($name, $lineFrom, $lineTo, $phpdoc, AClass $class, array $params)
 	{
-		parent::__construct($name, $lineFrom, $lineTo);
+		parent::__construct($name, $lineFrom, $lineTo, $phpdoc);
 		$this->class = $class;
 		$this->params = $params;
-		$this->phpdoc = $phpdoc;
 	}
 
 	/**

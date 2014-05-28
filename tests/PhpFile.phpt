@@ -21,5 +21,10 @@ Assert::same(1, count($found[1]->methods));
 
 $found = $php->getBetweenLines(17, 18);
 Assert::same(FALSE, $found[0]->methods[0]->complete);
+Assert::same(FALSE, $found[0]->methods[0]->changedSignature);
+Assert::same(TRUE, $found[0]->methods[0]->changedBody);
+$found = $php->getBetweenLines(15, 15);
+Assert::same(TRUE, $found[0]->methods[0]->changedSignature);
+Assert::same(FALSE, $found[0]->methods[0]->changedBody);
 $found = $php->getBetweenLines(15, 19);
 Assert::same(TRUE, $found[0]->methods[0]->complete);
