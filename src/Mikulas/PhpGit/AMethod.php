@@ -6,6 +6,7 @@ namespace Mikulas\PhpGit;
 use Nette\Reflection\Annotation;
 use Nette\Reflection\AnnotationsParser;
 use PhpParser\Comment\Doc;
+use PhpParser\Node\Expr;
 use PhpParser\Node\Param;
 
 

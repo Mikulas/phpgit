@@ -6,28 +6,28 @@ namespace Mikulas\PhpGit;
 class ChangeSet
 {
 
-	/** @var array */
+	/** @var AClass[] */
 	public $addedClasses = [];
 
-	/** @var array */
+	/** @var AMethod[] */
 	public $addedMethods = [];
 
-	/** @var array */
+	/** @var AClass[] */
 	public $removedClasses = [];
 
-	/** @var array */
+	/** @var AMethod[] */
 	public $removedMethods = [];
 
-	/** @var array */
+	/** @var AClass[][] */
 	public $renamedClasses = [];
 
-	/** @var array */
+	/** @var AMethod[][] */
 	public $renamedMethods = [];
 
-	/** @var array */
+	/** @var AMethod[][] */
 	public $changedMethods = [];
 
-	/** @var array*/
+	/** @var AMethod[][] */
 	public $changedMethodParameters = [];
 
 	/**
@@ -47,9 +47,7 @@ class ChangeSet
 				$classA = $removed[0];
 				$classB = $added[0];
 
-				$containsSignatureA = $edit->beginA <= $classA->lineFrom && $edit->getEndA() >= $classA->lineFrom;
-				$containsSignatureB = $edit->beginB <= $classB->lineFrom && $edit->getEndB() >= $classA->lineFrom;
-				if ($classA->name !== $classB->name && $containsSignatureA && $containsSignatureB)
+				if ($classA->name !== $classB->name && !$classA->changedBody && !$classB->changedBody)
 				{
 					$this->renamedClasses[] = [$classA, $classB];
 				}
@@ -58,24 +56,24 @@ class ChangeSet
 				{
 					$methodA = $classA->methods[0];
 					$methodB = $classB->methods[0];
-					$methodSignatureA = implode(', ', $methodA->getTypedParams());
-					$methodSignatureB = implode(', ', $methodB->getTypedParams());
-					if ($methodA->name !== $methodB->name
-					&& $methodSignatureA !== $methodSignatureB)
+					if ($methodA->name !== $methodB->name && !$methodA->changedBody && !$methodB->changedBody)
 					{
-						$this->removedMethods[] = $methodA;
-						$this->addedMethods[] = $methodB;
+						$this->renamedMethods[] = [$methodA, $methodB];
+					}
+					else if (($methodA->changedSignature || $methodB->changedSignature)
+						&& !$methodA->changedBody && !$methodB->changedBody)
+					{
+						$this->changedMethodParameters[] = [$methodA, $methodB];
+					}
+					else if (($methodA->changedBody || $methodB->changedBody)
+						&& !$methodA->changedSignature && !$methodB->changedSignature)
+					{
+						$this->changedMethods[] = $methodB;
 					}
 					else
 					{
-						if ($methodA->name !== $methodB->name)
-						{
-							$this->renamedMethods[] = [$methodA, $methodB];
-						}
-						if ($methodSignatureA !== $methodSignatureB)
-						{
-							$this->changedMethodParameters[(string) $methodB] = [$methodA, $methodB];
-						}
+						// TODO mark this as changed both signature and body
+						$this->changedMethods[] = $methodB;
 					}
 				}
 

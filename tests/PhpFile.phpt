@@ -12,10 +12,14 @@ Assert::same([], $php->getBetweenLines(0, 4));
 
 $found = $php->getBetweenLines(5, 5);
 Assert::same(1, count($found));
+Assert::same(TRUE, $found[0]->changedSignature);
+Assert::same(FALSE, $found[0]->changedBody);
 Assert::same(0, count($found[0]->methods));
 
 $found = $php->getBetweenLines(24, 33);
 Assert::same(2, count($found));
+Assert::same(FALSE, $found[0]->changedSignature);
+Assert::same(TRUE, $found[0]->changedBody);
 Assert::same(1, count($found[0]->methods));
 Assert::same(1, count($found[1]->methods));
 

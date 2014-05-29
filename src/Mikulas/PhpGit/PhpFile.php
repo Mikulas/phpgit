@@ -20,6 +20,10 @@ class PhpFile
 
 		try {
 			$nodes = $parser->parse($code);
+			if (!$nodes)
+			{
+				return;
+			}
 
 			if ($nodes[0] instanceof Namespace_)
 			{
@@ -83,6 +87,10 @@ class PhpFile
 			}
 			$gist = clone $class;
 			$gist->complete = $start <= $class->lineFrom && $end >= $class->lineTo;
+			list($signFrom, $signTo) = $gist->getSignatureLines();
+			$gist->changedSignature = !($signTo < $start || $signFrom > $end);
+			list($bodyFrom, $bodyTo) = $gist->getBodyLines();
+			$gist->changedBody = !($bodyTo < $start || $bodyFrom > $end);
 			$gist->methods = [];
 			foreach ($class->methods as $method)
 			{
@@ -98,7 +106,6 @@ class PhpFile
 				$method->changedSignature = !($signTo < $start || $signFrom > $end);
 				list($bodyFrom, $bodyTo) = $method->getBodyLines();
 				$method->changedBody = !($bodyTo < $start || $bodyFrom > $end);
-				dump($bodyFrom, $bodyTo, $start, $end); // 16, 19, 17, 18
 
 				$method->class = $gist;
 				$gist->methods[] = $method;
