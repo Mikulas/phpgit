@@ -55,8 +55,8 @@ class ChangeSetTest extends TestCase
 		/** @var AMethod $methodA */
 		/** @var AMethod $methodB */
 		list($methodA, $methodB) = $set->changedMethodParameters[0];
-		Assert::same('array $a, $b, $c', $methodA->getParamSignature());
-		Assert::same('Foo[] $a, $x, int $c', $methodB->getParamSignature());
+		Assert::same('array $a, $b, $c = NULL', $methodA->getParamSignature());
+		Assert::same('Foo[] $a, $x, int $c = NULL', $methodB->getParamSignature());
 	}
 
 	public function testMethodSignatureIsNotChanged()
@@ -66,4 +66,4 @@ class ChangeSetTest extends TestCase
 	}
 }
 
-(new ChangeSetTest())->run('testMethodSignatureIsNotChanged');
+(new ChangeSetTest())->run();

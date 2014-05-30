@@ -98,9 +98,13 @@ class AMethod extends CodeBlock
 		{
 			$type = isset($types[$param->name]) ? $types[$param->name] :
 				(isset($types[$i]) ? $types[$i] : $param->type);
+			$default = $this->getParamDefaults($param);
+			if ($default === 'NULL') {
+				$type = preg_replace('~\|?NULL\|?~', '', $type);
+			}
 			$typed[$param->name] = (object) [
 				'type' => $type,
-				'default' => $this->getParamDefaults($param),
+				'default' => $default,
 			];
 		}
 

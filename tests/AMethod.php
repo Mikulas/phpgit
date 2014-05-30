@@ -26,6 +26,23 @@ class AMethodTest extends TestCase
 		Assert::same('', $empty->getParamSignature());
 	}
 
+	public function testGetParamSignatureNull()
+	{
+		$code = file_get_contents(__DIR__ . '/fixtures/AMethod/getParamSignatureNull.php');
+		$php = new PhpFile($code);
+		$method = $php->classes[0]->methods[0];
+		Assert::same('$a = NULL', $method->getParamSignature());
+
+		$method = $php->classes[0]->methods[1];
+		Assert::same('$a = NULL', $method->getParamSignature());
+
+		$method = $php->classes[0]->methods[2];
+		Assert::same('string $a = NULL', $method->getParamSignature());
+
+		$method = $php->classes[0]->methods[3];
+		Assert::same('NULL|string $a = \'test\'', $method->getParamSignature());
+	}
+
 }
 
 (new AMethodTest())->run();
