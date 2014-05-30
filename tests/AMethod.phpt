@@ -1,18 +1,62 @@
 <?php
 
-require __DIR__ . '/bootstrap.php';
+namespace Tests;
 
 use Mikulas\PhpGit\AMethod;
-use Mikulas\PhpGit\ChangeSet;
-use Mikulas\PhpGit\Edit;
 use Mikulas\PhpGit\PhpFile;
 use Tester\Assert;
 
-$code = file_get_contents(__DIR__ . '/fixtures/signatures.php');
-$a = new PhpFile($code);
+require __DIR__ . '/bootstrap.php';
 
-Assert::same([9, 17], $a->classes[0]->methods[0]->getSignatureLines());
-Assert::same([18, 20], $a->classes[0]->methods[0]->getBodyLines());
 
-Assert::same([22, 26], $a->classes[0]->methods[1]->getSignatureLines());
-Assert::same([27, 28], $a->classes[0]->methods[1]->getBodyLines());
+class AMethodTest extends TestCase
+{
+
+	public function testGetParamSignature()
+	{
+		$code = file_get_contents(__DIR__ . '/fixtures/AMethod/getParamSignature.php');
+		$php = new PhpFile($code);
+		$method = $php->classes[0]->methods[0];
+		Assert::same('Foo[] $a = array(), float $b = 1.0, string|NULL $c = self::BAR', $method->getParamSignature());
+
+		$noDefaults = $php->classes[0]->methods[1];
+		Assert::same('$a, $b, $c', $noDefaults->getParamSignature());
+
+		$empty = $php->classes[0]->methods[2];
+		Assert::same('', $empty->getParamSignature());
+	}
+
+	public function testGetParamSignatureNull()
+	{
+		$code = file_get_contents(__DIR__ . '/fixtures/AMethod/getParamSignatureNull.php');
+		$php = new PhpFile($code);
+		$method = $php->classes[0]->methods[0];
+		Assert::same('$a = NULL', $method->getParamSignature());
+
+		$method = $php->classes[0]->methods[1];
+		Assert::same('$a = NULL', $method->getParamSignature());
+
+		$method = $php->classes[0]->methods[2];
+		Assert::same('string $a = NULL', $method->getParamSignature());
+
+		$method = $php->classes[0]->methods[3];
+		Assert::same('NULL|string $a = \'test\'', $method->getParamSignature());
+	}
+
+	public function testGetLines()
+	{
+		$code = file_get_contents(__DIR__ . '/fixtures/AMethod/getLines.php');
+		$php = new PhpFile($code);
+
+		$method = $php->classes[0]->methods[0];
+		Assert::same([9, 17], $method->getSignatureLines());
+		Assert::same([18, 20], $method->getBodyLines());
+
+		$method = $php->classes[0]->methods[0];
+		Assert::same([22, 26], $method->getSignatureLines());
+		Assert::same([27, 28], $method->getBodyLines());
+	}
+
+}
+
+(new AMethodTest())->run();

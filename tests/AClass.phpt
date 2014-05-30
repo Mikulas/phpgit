@@ -1,15 +1,27 @@
 <?php
 
-require __DIR__ . '/bootstrap.php';
+namespace Tests;
 
 use Mikulas\PhpGit\AMethod;
-use Mikulas\PhpGit\ChangeSet;
-use Mikulas\PhpGit\Edit;
 use Mikulas\PhpGit\PhpFile;
 use Tester\Assert;
 
-$code = file_get_contents(__DIR__ . '/fixtures/signatures.php');
-$a = new PhpFile($code);
+require __DIR__ . '/bootstrap.php';
 
-Assert::same([3, 6], $a->classes[0]->getSignatureLines());
-Assert::same([7, 30], $a->classes[0]->getBodyLines());
+
+class AClassTest extends TestCase
+{
+
+	public function testGetLines()
+	{
+		$code = file_get_contents(__DIR__ . '/fixtures/AClass/getLines.php');
+		$php = new PhpFile($code);
+
+		$class = $php->classes[0];
+		Assert::same([3, 6], $class->getSignatureLines());
+		Assert::same([7, 9], $class->getBodyLines());
+	}
+
+}
+
+(new AClassTest())->run();
