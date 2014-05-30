@@ -32,6 +32,7 @@ $printBuildingIndex = 10;
 foreach (array_reverse($commits) as $commit)
 {
 	list($rev, $time, $author, $subject) = $commit;
+	dump($rev);
 	if (isset($index[$rev]))
 	{
 		continue;
@@ -56,15 +57,17 @@ foreach (array_reverse($commits) as $commit)
 			continue;
 		}
 
-		$phpA = isset($cache[$parent][$change['fileA']])
-			? $cache[$parent][$change['fileA']]
-			: getPhp($repo, $parent, $change['fileA']);
+		$f = $change['fileA'];
+		$phpA = isset($cache[$parent][$f])
+			? $cache[$parent][$f]
+			: getPhp($repo, $parent, $f);
 		$cache[$parent][$change['fileA']] = $phpA;
 
-		$phpB = isset($cache[$rev][$change['fileB']])
-			? $cache[$rev][$change['fileB']]
-			: getPhp($repo, $rev, $change['fileB']);
-		$cache[$parent][$change['fileA']] = $phpB;
+		$f = $change['fileB'];
+		$phpB = isset($cache[$rev][$f])
+			? $cache[$rev][$f]
+			: getPhp($repo, $rev, $f);
+		$cache[$parent][$change['fileB']] = $phpB;
 
 		$set = new ChangeSet($phpA, $phpB, $change['edits']);
 		$index[$rev][] = $set;
