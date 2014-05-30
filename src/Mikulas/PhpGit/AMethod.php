@@ -71,9 +71,16 @@ class AMethod extends CodeBlock
 		$params = [];
 		foreach ($this->getTypedParams() as $name => $type)
 		{
-			$params[] = ltrim("$type \$$name");
+			$params[] = ltrim("$type->type \$$name" . ($type->default ? ' = ' . $type->default : ''));
 		}
 		return implode(', ', $params);
+	}
+
+	public function getParamDefaults(Param $param)
+	{
+		$printer = new \PhpParser\PrettyPrinter\Standard;
+		$code = $printer->prettyPrint([$param->default]);
+		return rtrim($code, ';');
 	}
 
 	public function getTypedParams()
@@ -86,7 +93,10 @@ class AMethod extends CodeBlock
 		{
 			$type = isset($types[$param->name]) ? $types[$param->name] :
 				(isset($types[$i]) ? $types[$i] : $param->type);
-			$typed[$param->name] = $type;
+			$typed[$param->name] = (object) [
+				'type' => $type,
+				'default' => $this->getParamDefaults($param),
+			];
 		}
 
 		return $typed;

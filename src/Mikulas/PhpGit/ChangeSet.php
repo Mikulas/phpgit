@@ -63,6 +63,8 @@ class ChangeSet
 					else if (($methodA->changedSignature || $methodB->changedSignature)
 						&& !$methodA->changedBody && !$methodB->changedBody)
 					{
+						dump($methodA->getParamSignature());
+						dump($methodB->getParamSignature());
 						$this->changedMethodParameters[] = [$methodA, $methodB];
 					}
 					else if (($methodA->changedBody || $methodB->changedBody)

@@ -3,9 +3,6 @@
 namespace Tests;
 
 use Mikulas\PhpGit\AMethod;
-use Mikulas\PhpGit\ChangeSet;
-use Mikulas\PhpGit\Edit;
-use Mikulas\PhpGit\PhpFile;
 use Tester\Assert;
 
 require __DIR__ . '/bootstrap.php';
@@ -69,4 +66,4 @@ class ChangeSetTest extends TestCase
 	}
 }
 
-(new ChangeSetTest())->run();
+(new ChangeSetTest())->run('testMethodSignatureIsNotChanged');
