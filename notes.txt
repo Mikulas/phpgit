@@ -1,18 +1,9 @@
-file renamed
-cffcc65398fba565cd67134b5d4800b93b78716b
-
-renames
-https://github.com/Mikulas/phpgit-test/commit/a2a5b7bff489a5269ae9b549f567c55fb0966840
-
-class rename not working
-https://github.com/mikulas/phpgit-test/commit/059314aee437ebb181488337be8d7fb5cecc62f0
-
-phpdiff as commit hook
 
 TODO:
-	fix class both renamed and changed params f84b688d3c6c6d3d8c3f746fb60d7087dd6cc034
-	fix class shows as removed https://github.com/Mikulas/phpgit-test/commit/6f4b5efbb8515b9529d61f576608b34b7a6dea49
-	fix class rename
-	fix renames over files
-	method default argumenst such as $foo = 1 or $foo = NULL or $foo = self::BAR
 	list who introduced method, list all author, show by last change and line out
+	optionally filter out commits without changes
+	phpdiff as commit hook
+
+showcase commits:
+	files just renamed, api not changed https://github.com/Mikulas/phpgit-test/commit/a2a5b7bff489a5269ae9b549f567c55fb0966840
+	class renamed and moved between files 059314aee437ebb181488337be8d7fb5cecc62f0
