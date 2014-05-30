@@ -32,7 +32,6 @@ $printBuildingIndex = 10;
 foreach (array_reverse($commits) as $commit)
 {
 	list($rev, $time, $author, $subject) = $commit;
-	dump($rev);
 	if (isset($index[$rev]))
 	{
 		continue;

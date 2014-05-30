@@ -51,7 +51,6 @@ class ChangeSet
 			{
 				if (count($a->classes) !== count($b->classes))
 				{
-					dump($a, $b, $edit);
 					throw new \Exception('not implemented');
 				}
 				foreach ($a->classes as $i => $class)
