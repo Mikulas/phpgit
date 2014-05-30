@@ -36,29 +36,31 @@ class Repo
 
 	public function getCommitChanges($hash)
 	{
-		$out = $this->run('show -U0 %s', $hash);
+		$out = $this->run('show -U0 --find-copies-harder %s', $hash);
 
 		$files = [];
 		$file = NULL;
 		foreach (explode("\n", $out) as $line)
 		{
-			if (strpos($line, '--- ') === 0)
+			if (strpos($line, 'diff --git') === 0)
 			{
 				if ($file)
 				{
 					$files[] = $file;
 				}
 				$file = [
-					'fileA' => strpos($line, '--- /dev/null') === 0 ? NULL : substr($line, 6),
+					'fileA' => NULL,
 					'fileB' => NULL,
 					'edits' => [],
 				];
-				continue;
+			}
+			else if (strpos($line, '--- ') === 0)
+			{
+				$file['fileA'] = strpos($line, '--- /dev/null') === 0 ? NULL : substr($line, 6);
 			}
 			else if (strpos($line, '+++ b/') === 0)
 			{
 				$file['fileB'] = substr($line, 6);
-				continue;
 			}
 			else if (strpos($line, '@@ ') === 0)
 			{

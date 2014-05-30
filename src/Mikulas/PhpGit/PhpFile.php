@@ -87,7 +87,6 @@ class PhpFile
 			}
 			$gist = clone $class;
 			$classCompleteFrom = $class->phpdoc ? $class->lineFrom : $class->lineFrom + 1;
-			dump($classCompleteFrom);
 			$gist->complete = $start <= $classCompleteFrom && $end >= $class->lineTo;
 
 			list($signFrom, $signTo) = $gist->getSignatureLines();
