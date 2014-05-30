@@ -28,7 +28,7 @@ abstract class CodeBlock
 	public $changedBody;
 
 	/** @var Doc */
-	protected $phpdoc;
+	public $phpdoc;
 
 	/**
 	 * @param string $name
@@ -39,7 +39,8 @@ abstract class CodeBlock
 	public function __construct($name, $lineFrom, $lineTo, $phpdoc)
 	{
 		$this->name = $name;
-		$this->lineFrom = $lineFrom;
+		$this->lineFrom = $phpdoc ? $phpdoc->getLine() : $lineFrom - 1; // -1 to catch new annotations
+		$this->signatureFrom = $lineFrom;
 		$this->lineTo = $lineTo;
 		$this->phpdoc = $phpdoc;
 	}

@@ -28,7 +28,7 @@ class AClass extends CodeBlock
 	 */
 	public function getSignatureLines()
 	{
-		return [$this->phpdoc ? $this->phpdoc->getLine() : $this->lineFrom, $this->lineFrom];
+		return [$this->lineFrom, $this->signatureFrom];
 	}
 
 	/**
@@ -36,7 +36,7 @@ class AClass extends CodeBlock
 	 */
 	public function getBodyLines()
 	{
-		return [$this->lineFrom + 1, $this->lineTo];
+		return [$this->signatureFrom + 1, $this->lineTo];
 	}
 
 }

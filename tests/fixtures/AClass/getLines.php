@@ -7,3 +7,6 @@ class Foo
 {
 
 }
+
+class Bar
+{}

@@ -86,11 +86,15 @@ class PhpFile
 				continue;
 			}
 			$gist = clone $class;
-			$gist->complete = $start <= $class->lineFrom && $end >= $class->lineTo;
+			$classCompleteFrom = $class->phpdoc ? $class->lineFrom : $class->lineFrom + 1;
+			dump($classCompleteFrom);
+			$gist->complete = $start <= $classCompleteFrom && $end >= $class->lineTo;
+
 			list($signFrom, $signTo) = $gist->getSignatureLines();
 			$gist->changedSignature = !($signTo < $start || $signFrom > $end);
 			list($bodyFrom, $bodyTo) = $gist->getBodyLines();
 			$gist->changedBody = !($bodyTo < $start || $bodyFrom > $end);
+
 			$gist->methods = [];
 			foreach ($class->methods as $method)
 			{
@@ -100,7 +104,8 @@ class PhpFile
 				{
 					continue;
 				}
-				$method->complete = $start <= $method->lineFrom && $end >= $method->lineTo;
+				$methodCompleteFrom = $method->phpdoc ? $method->lineFrom : $method->lineFrom + 1;
+				$method->complete = $start <= $methodCompleteFrom && $end >= $method->lineTo;
 
 				list($signFrom, $signTo) = $method->getSignatureLines();
 				$method->changedSignature = !($signTo < $start || $signFrom > $end);

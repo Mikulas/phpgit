@@ -8,7 +8,7 @@ use Tester\Assert;
 $code = file_get_contents(__DIR__ . '/fixtures/test.php');
 $php = new PhpFile($code);
 
-Assert::same([], $php->getBetweenLines(0, 4));
+Assert::same([], $php->getBetweenLines(0, 3));
 
 $found = $php->getBetweenLines(5, 5);
 Assert::same(1, count($found));
@@ -30,5 +30,5 @@ Assert::same(TRUE, $found[0]->methods[0]->changedBody);
 $found = $php->getBetweenLines(15, 15);
 Assert::same(TRUE, $found[0]->methods[0]->changedSignature);
 Assert::same(FALSE, $found[0]->methods[0]->changedBody);
-$found = $php->getBetweenLines(15, 19);
+$found = $php->getBetweenLines(8, 19);
 Assert::same(TRUE, $found[0]->methods[0]->complete);

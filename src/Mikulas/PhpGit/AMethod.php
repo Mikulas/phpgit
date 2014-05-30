@@ -35,13 +35,12 @@ class AMethod extends CodeBlock
 	{
 		/** @var Param[] $p */
 		$p = $this->params;
-		$from = $this->phpdoc ? $this->phpdoc->getLine() : $this->lineFrom;
 		if (count($p) === 0)
 		{
-			return [$from, $this->lineTo];
+			return [$this->lineFrom, $this->lineTo];
 		}
 
-		return [$from, max($p)->getAttribute('endLine')];
+		return [$this->lineFrom, max($p)->getAttribute('endLine')];
 	}
 
 	/**
@@ -51,10 +50,9 @@ class AMethod extends CodeBlock
 	{
 		/** @var Param[] $p */
 		$p = $this->params;
-		$from = $this->phpdoc ? $this->phpdoc->getLine() : $this->lineFrom;
 		if (count($p) === 0)
 		{
-			return [$this->lineFrom + 1, $this->lineTo];
+			return [$this->signatureFrom + 1, $this->lineTo];
 		}
 
 		return [max($p)->getAttribute('endLine') + 1, $this->lineTo];

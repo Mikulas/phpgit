@@ -59,6 +59,17 @@ class ChangeSetTest extends TestCase
 		Assert::same('Foo[] $a, $x, int $c = NULL', $methodB->getParamSignature());
 	}
 
+	public function testMethodSignatureIsChangedByAnnotation()
+	{
+		$set = $this->getSet();
+		Assert::same(1, count($set->changedMethodParameters));
+		/** @var AMethod $methodA */
+		/** @var AMethod $methodB */
+		list($methodA, $methodB) = $set->changedMethodParameters[0];
+		Assert::same('$', $methodA->getParamSignatureWithoutNames());
+		Assert::same('Exception $', $methodB->getParamSignatureWithoutNames());
+	}
+
 	public function testMethodSignatureIsNotChanged()
 	{
 		$set = $this->getSet();

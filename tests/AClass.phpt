@@ -20,6 +20,10 @@ class AClassTest extends TestCase
 		$class = $php->classes[0];
 		Assert::same([3, 6], $class->getSignatureLines());
 		Assert::same([7, 9], $class->getBodyLines());
+
+		$class = $php->classes[1];
+		Assert::same([10, 11], $class->getSignatureLines());
+		Assert::same([12, 12], $class->getBodyLines());
 	}
 
 }
