@@ -9,7 +9,7 @@ use PhpParser\Node\Stmt\Namespace_;
 class PhpFile
 {
 
-	private $namespace = NULL;
+	public $namespace = NULL;
 
 	/** @var AClass[] */
 	public $classes = [];

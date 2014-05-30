@@ -3,6 +3,9 @@
 namespace Mikulas\PhpGit;
 
 
+use Exception;
+
+
 class ChangeSet
 {
 
@@ -34,6 +37,8 @@ class ChangeSet
 	 * @param PhpFile|NULL $a
 	 * @param PhpFile|NULL $b
 	 * @param Edit[] $edits
+	 *
+	 * @throws Exception
 	 */
 	public function __construct($a, $b, array $edits)
 	{
@@ -41,6 +46,18 @@ class ChangeSet
 		{
 			$removed = $a ? $a->getBetweenLines($edit->beginA, $edit->getEndA()) : [];
 			$added = $b ? $b->getBetweenLines($edit->beginB, $edit->getEndB()) : [];
+
+			if ($a && $b && $a->namespace !== $b->namespace)
+			{
+				if (count($a->classes) !== count($b->classes))
+				{
+					throw new \Exception('not implemented');
+				}
+				foreach ($a->classes as $i => $class)
+				{
+					$this->renamedClasses[] = [$class, $b->classes[$i]];
+				}
+			}
 
 			if (count($removed) === 1 && count($added) === 1)
 			{

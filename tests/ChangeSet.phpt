@@ -75,6 +75,16 @@ class ChangeSetTest extends TestCase
 		$set = $this->getSet();
 		Assert::same(0, count($set->changedMethodParameters));
 	}
+
+	public function testClassNamespaceIsChanged()
+	{
+		$set = $this->getSet();
+		Assert::same(1, count($set->renamedClasses));
+		list($classA, $classB) = $set->renamedClasses[0];
+		Assert::same('OldNamespace\Foo', (string) $classA);
+		Assert::same('NewNamespace\Foo', (string) $classB);
+	}
+
 }
 
-(new ChangeSetTest())->run();
+(new ChangeSetTest())->run('testClassNamespaceIsChanged');
