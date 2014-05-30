@@ -49,12 +49,12 @@ class AMethodTest extends TestCase
 		$php = new PhpFile($code);
 
 		$method = $php->classes[0]->methods[0];
-		Assert::same([9, 17], $method->getSignatureLines());
-		Assert::same([18, 20], $method->getBodyLines());
+		Assert::same([6, 14], $method->getSignatureLines());
+		Assert::same([15, 17], $method->getBodyLines());
 
-		$method = $php->classes[0]->methods[0];
-		Assert::same([22, 26], $method->getSignatureLines());
-		Assert::same([27, 28], $method->getBodyLines());
+		$method = $php->classes[0]->methods[1];
+		Assert::same([19, 23], $method->getSignatureLines());
+		Assert::same([24, 25], $method->getBodyLines());
 	}
 
 }
