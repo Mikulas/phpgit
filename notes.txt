@@ -1,4 +1,3 @@
-
 TODO:
 	list who introduced method, list all author, show by last change and line out
 	optionally filter out commits without changes

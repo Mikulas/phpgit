@@ -78,6 +78,20 @@ foreach ($commits as $commit)
 {
 	list($rev, $time, $author, $subject) = $commit;
 
+	/** @var ChangeSet $set */
+	$skip = TRUE;
+	foreach ($index[$rev] as $set)
+	{
+		if ($set->containsChange()) {
+			$skip = FALSE;
+			break;
+		}
+	}
+	if ($skip)
+	{
+		continue;
+	}
+
 	echo "\033[33mcommit $rev\033[0m\n";
 	echo "Author: $author\n";
 	echo "Date: " . date('r', $time) . "\n";
