@@ -75,6 +75,22 @@ class Repo
 		return $files;
 	}
 
+	public function getAuthors()
+	{
+		$out = $this->run('log --format=%s | sort -u', escapeshellarg("%aE{$this->delim}%aN"));
+		$authors = [];
+		foreach (explode("\n", $out) as $line)
+		{
+			if (!$line)
+			{
+				continue;
+			}
+			list($email, $name) = explode($this->delim, $line);
+			$authors[$email] = $name;
+		}
+		return $authors;
+	}
+
 	public function getFile($revision, $file)
 	{
 		return $this->run('show %s:%s', $revision, $file);

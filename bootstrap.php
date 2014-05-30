@@ -23,6 +23,7 @@ $start = microtime(TRUE);
 $parent = NULL;
 $cache = [];
 $commits = $repo->getCommits();
+$authors = $repo->getAuthors();
 
 $cacheFile = $dir . '/.git/php_index.bin';
 $index = file_exists($cacheFile) ? unserialize(file_get_contents($cacheFile)) : [];
@@ -74,7 +75,7 @@ foreach (array_reverse($commits) as $commit)
 }
 file_put_contents($dir . '/.git/php_index.bin', serialize($index));
 
-return [$index, $commits];
+return [$index, $commits, $authors];
 
 
 function getPhp(Repo $repo, $revision, $path)

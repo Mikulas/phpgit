@@ -31,4 +31,8 @@ Assert::null($newFile[0]['fileA']);
 $removedFile = $repo->getCommitChanges('57dcef6');
 Assert::null($removedFile[1]['fileB']);
 
+$authors = $repo->getAuthors();
+Assert::same(19, count($authors));
+Assert::same('Mikulas', $authors['rullaf@gmail.com']);
+
 Assert::same('05bde416d8744726e4c0aeb55beb33f1', md5($repo->getFile('8608fc1', 'composer.json')));
