@@ -15,7 +15,7 @@ $loader->add('Mikulas\\PhpGit\\', __DIR__ . '/src');
 \Tracy\Debugger::$strictMode = TRUE;
 \Tracy\Debugger::$maxDepth = 4;
 
-$dir = __DIR__ . '/tests/fixtures/repo';
+$dir = isset($argv[1]) ? $argv[1] : __DIR__ . '/tests/fixtures/repo';
 $repo = new Repo($dir);
 
 $start = microtime(TRUE);
@@ -46,12 +46,24 @@ foreach (array_reverse($commits) as $commit)
 	else if ($printBuildingIndex < 0)
 	{
 		echo ".";
+		if ($printBuildingIndex % 10 === 0)
+		{
+			file_put_contents($dir . '/.git/php_index.bin', serialize($index));
+		}
 	}
 
 	foreach ($repo->getCommitChanges($commit[0]) as $change)
 	{
-		if (stripos(strrev(strToLower($change['fileA'])), 'php') !== 0
-		 && stripos(strrev(strToLower($change['fileB'])), 'php') !== 0)
+		if (strToLower($change['fileA']) === 'composer.lock'
+		 && strToLower($change['fileB']) === 'composer.lock')
+		{
+			$a = $repo->getFile($rev, $change['fileA']);
+			$b = $repo->getFile($parent, $change['fileA']);
+			$index[$rev][] = new \Mikulas\PhpGit\ComposerUpdate($a, $b);
+		}
+
+		if (!preg_match('~app/.*\.php~', $change['fileA'])
+		 && !preg_match('~app/.*\.php~', $change['fileB']))
 		{
 			continue;
 		}

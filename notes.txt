@@ -1,6 +1,4 @@
 TODO:
-	fix added namespace 89e7f404b2e1e2fbf0723bfd347c694986f21012
-
 	list who introduced method, list all author, show by last change and line out
 	merge sets per commit so the output is ordered properly
 	optionally filter out commits without changes
@@ -9,3 +7,4 @@ TODO:
 showcase commits:
 	files just renamed, api not changed https://github.com/Mikulas/phpgit-test/commit/a2a5b7bff489a5269ae9b549f567c55fb0966840
 	class renamed and moved between files 059314aee437ebb181488337be8d7fb5cecc62f0
+	pretty printing commits that update composer dependencies (if lockfile is in root)

@@ -3,6 +3,7 @@
 use Mikulas\PhpGit\AClass;
 use Mikulas\PhpGit\AMethod;
 use Mikulas\PhpGit\ChangeSet;
+use Mikulas\PhpGit\ComposerUpdate;
 
 
 list($index, $commits, $names) = require __DIR__ . '/bootstrap.php';
@@ -15,7 +16,7 @@ foreach ($commits as $commit)
 	$skip = TRUE;
 	foreach ($index[$rev] as $set)
 	{
-		if ($set->containsChange()) {
+		if ($set instanceof ChangeSet && $set->containsChange()) {
 			$skip = FALSE;
 			break;
 		}
@@ -33,9 +34,33 @@ foreach ($commits as $commit)
 
 	$printNewline = TRUE;
 
-	/** @var ChangeSet $set */
+	/** @var ChangeSet|ComposerUpdate $set */
 	foreach ($index[$rev] as $set)
 	{
+		if ($set instanceof ComposerUpdate)
+		{
+			/** @var ComposerUpdate $set */
+			echo "\n";
+
+			echo "    updated dependencies:\n";
+			foreach ($set->removed as $name)
+			{
+				echo "        removed $name\n";
+			}
+			foreach ($set->added as $name)
+			{
+				echo "          added $name\n";
+			}
+			foreach ($set->updated as $name => $versions)
+			{
+				list($a, $b) = $versions;
+				echo "        updated $name\n                $a => $b\n";
+			}
+
+			$printNewline = TRUE;
+			continue;
+		}
+
 		if ($printNewline && $set->containsChange())
 		{
 			echo "\n";
