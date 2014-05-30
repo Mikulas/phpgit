@@ -10,9 +10,10 @@ class Foo
 	 * @param float $b
 	 * @param string|NULL $c
 	 */
-	public function test(array $a = array(), $b = 1.0, $c = self::BAR)
-	{
+	public function test(array $a = array(), $b = 1.0, $c = self::BAR) {}
 
-	}
+	public function noDefault($a, $b, $c) {}
+
+	public function noArgs() {}
 
 }

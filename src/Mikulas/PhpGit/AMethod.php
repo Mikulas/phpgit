@@ -78,6 +78,11 @@ class AMethod extends CodeBlock
 
 	public function getParamDefaults(Param $param)
 	{
+		if (!$param->default)
+		{
+			return NULL;
+		}
+
 		$printer = new \PhpParser\PrettyPrinter\Standard;
 		$code = $printer->prettyPrint([$param->default]);
 		return rtrim($code, ';');

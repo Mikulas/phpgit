@@ -18,7 +18,14 @@ class AMethodTest extends TestCase
 		$php = new PhpFile($code);
 		$method = $php->classes[0]->methods[0];
 		Assert::same('Foo[] $a = array(), float $b = 1.0, string|NULL $c = self::BAR', $method->getParamSignature());
+
+		$noDefaults = $php->classes[0]->methods[1];
+		Assert::same('$a, $b, $c', $noDefaults->getParamSignature());
+
+		$empty = $php->classes[0]->methods[2];
+		Assert::same('', $empty->getParamSignature());
 	}
+
 }
 
 (new AMethodTest())->run();
