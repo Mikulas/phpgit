@@ -66,11 +66,20 @@ class AMethod extends CodeBlock
 		return "{$this->class}::{$this->name}($ps)";
 	}
 
-	public function getParamSignature()
+	public function getParamSignatureWithoutNames()
+	{
+		return $this->getParamSignature(FALSE);
+	}
+
+	public function getParamSignature($printNames = TRUE)
 	{
 		$params = [];
 		foreach ($this->getTypedParams() as $name => $type)
 		{
+			if (!$printNames)
+			{
+				$name = '';
+			}
 			$params[] = ltrim("$type->type \$$name" . ($type->default ? ' = ' . $type->default : ''));
 		}
 		return implode(', ', $params);
