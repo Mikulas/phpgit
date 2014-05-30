@@ -64,6 +64,12 @@ class AMethod extends CodeBlock
 		return "{$this->class}::{$this->name}($ps)";
 	}
 
+	public function toShortString()
+	{
+		$ps = $this->getParamSignature();
+		return "{$this->class}::{$this->name}";
+	}
+
 	public function getParamSignatureWithoutNames()
 	{
 		return $this->getParamSignature(FALSE);

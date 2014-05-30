@@ -21,6 +21,9 @@ abstract class CodeBlock
 	/** @var NULL|boolean was this code block completely removed or added? */
 	public $complete;
 
+	/** @var NULL|int */
+	public $linesAffected;
+
 	/** @var NULL|boolean */
 	public $changedSignature;
 

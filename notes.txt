@@ -1,4 +1,6 @@
 TODO:
+	fix added namespace 89e7f404b2e1e2fbf0723bfd347c694986f21012
+
 	list who introduced method, list all author, show by last change and line out
 	merge sets per commit so the output is ordered properly
 	optionally filter out commits without changes

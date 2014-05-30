@@ -5,7 +5,7 @@ use Mikulas\PhpGit\AMethod;
 use Mikulas\PhpGit\ChangeSet;
 
 
-list($index, $commits, $authors) = require __DIR__ . '/bootstrap.php';
+list($index, $commits, $names) = require __DIR__ . '/bootstrap.php';
 
 foreach ($commits as $commit)
 {
@@ -25,7 +25,7 @@ foreach ($commits as $commit)
 		continue;
 	}
 
-	$name = $authors[$email];
+	$name = $names[$email];
 	echo "\033[33mcommit $rev\033[0m\n";
 	echo "Author: $name <$email>\n";
 	echo "Date: " . date('r', $time) . "\n";

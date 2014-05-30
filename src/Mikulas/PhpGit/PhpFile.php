@@ -93,6 +93,7 @@ class PhpFile
 			$gist->changedSignature = !($signTo < $start || $signFrom > $end);
 			list($bodyFrom, $bodyTo) = $gist->getBodyLines();
 			$gist->changedBody = !($bodyTo < $start || $bodyFrom > $end);
+			$gist->linesAffected = min($end, $class->lineTo) - max($classCompleteFrom, $start) + 1;
 
 			$gist->methods = [];
 			foreach ($class->methods as $method)
@@ -105,6 +106,7 @@ class PhpFile
 				}
 				$methodCompleteFrom = $method->phpdoc ? $method->lineFrom : $method->lineFrom + 1;
 				$method->complete = $start <= $methodCompleteFrom && $end >= $method->lineTo;
+				$method->linesAffected = min($end, $method->lineTo) - max($methodCompleteFrom, $start) + 1;
 
 				list($signFrom, $signTo) = $method->getSignatureLines();
 				$method->changedSignature = !($signTo < $start || $signFrom > $end);
