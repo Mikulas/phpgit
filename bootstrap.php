@@ -84,6 +84,44 @@ foreach (array_reverse($commits) as $commit)
 		$index[$rev][] = $set;
 	}
 
+	$composer = NULL;
+	$keys = [
+		'addedClasses',
+		'addedMethods',
+		'removedClasses',
+		'removedMethods',
+		'renamedClasses',
+		'renamedMethods',
+		'changedMethods',
+		'changedMethodParameters'
+	];
+	$master = NULL;
+
+	/** @var ChangeSet $set */
+	foreach ($index[$rev] as $set)
+	{
+		if ($set instanceof \Mikulas\PhpGit\ComposerUpdate)
+		{
+			$composer = $set;
+			continue;
+		}
+		if (!$master)
+		{
+			$master = $set;
+		}
+		else
+		{
+			foreach ($keys as $key)
+			{
+				$master->$key = array_merge($master->$key, $set->$key);
+			}
+		}
+	}
+	$index[$rev] = (object) [
+		'changeset' => $master,
+		'composer' => $composer,
+	];
+
 	unset($cache[$parent]);
 	$parent = $commit[0];
 }

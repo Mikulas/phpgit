@@ -11,17 +11,7 @@ list($index, $commits, $names) = require __DIR__ . '/bootstrap.php';
 foreach ($commits as $commit)
 {
 	list($rev, $time, $email, $subject) = $commit;
-
-	/** @var ChangeSet $set */
-	$skip = TRUE;
-	foreach ($index[$rev] as $set)
-	{
-		if ($set instanceof ChangeSet && $set->containsChange()) {
-			$skip = FALSE;
-			break;
-		}
-	}
-	if ($skip)
+	if ((!$index[$rev]->changeset || !$index[$rev]->changeset->containsChange()) && !$index[$rev]->composer)
 	{
 		continue;
 	}
@@ -34,81 +24,73 @@ foreach ($commits as $commit)
 
 	$printNewline = TRUE;
 
-	/** @var ChangeSet|ComposerUpdate $set */
-	foreach ($index[$rev] as $set)
+	$composer = $index[$rev]->composer;
+	if ($composer)
 	{
-		if ($set instanceof ComposerUpdate)
-		{
-			/** @var ComposerUpdate $set */
-			echo "\n";
+		/** @var ComposerUpdate $set */
+		echo "\n";
 
-			echo "    updated dependencies:\n";
-			foreach ($set->removed as $name)
-			{
-				echo "        removed $name\n";
-			}
-			foreach ($set->added as $name)
-			{
-				echo "          added $name\n";
-			}
-			foreach ($set->updated as $name => $versions)
-			{
-				list($a, $b) = $versions;
-				echo "        updated $name\n                $a => $b\n";
-			}
+		echo "    updated dependencies:\n";
+		foreach ($composer->removed as $name)
+		{
+			echo "        removed $name\n";
+		}
+		foreach ($composer->added as $name)
+		{
+			echo "          added $name\n";
+		}
+		foreach ($composer->updated as $name => $versions)
+		{
+			list($a, $b) = $versions;
+			echo "        updated $name\n                $a => $b\n";
+		}
+	}
+	echo "\n";
 
-			$printNewline = TRUE;
-			continue;
-		}
+	/** @var ChangeSet $set */
+	$set = $index[$rev]->changeset;
 
-		if ($printNewline && $set->containsChange())
-		{
-			echo "\n";
-			$printNewline = FALSE;
-		}
-
-		foreach ($set->removedClasses as $class)
-		{
-			echo "    removed $class\n";
-		}
-		foreach ($set->removedMethods as $method)
-		{
-			echo "    removed $method\n";
-		}
-		foreach ($set->renamedClasses as $node)
-		{
-			/** @var AClass $a */
-			/** @var AClass $b */
-			list($a, $b) = $node;
-			echo "    renamed $a\n";
-			echo "         to $b\n";
-		}
-		foreach ($set->renamedMethods as $node)
-		{
-			/** @var AMethod $a */
-			/** @var AMethod $b */
-			list($a, $b) = $node;
-			echo "    renamed $a\n";
-			echo "         to $b\n";
-		}
-		foreach ($set->addedClasses as $class)
-		{
-			echo "      added $class\n";
-		}
-		foreach ($set->addedMethods as $method)
-		{
-			echo "      added $method\n";
-		}
-		foreach ($set->changedMethodParameters as $node)
-		{
-			list($methodA, $methodB) = $node;
-			echo "    changed $methodA\n";
-			echo "         to $methodB\n";
-		}
-		foreach ($set->changedMethods as $method)
-		{
-			echo "    changed $method\n";
-		}
+	foreach ($set->removedClasses as $class)
+	{
+		echo "    removed $class\n";
+	}
+	foreach ($set->removedMethods as $method)
+	{
+		echo "    removed $method\n";
+	}
+	foreach ($set->addedClasses as $class)
+	{
+		echo "      added $class\n";
+	}
+	foreach ($set->addedMethods as $method)
+	{
+		echo "      added $method\n";
+	}
+	foreach ($set->renamedClasses as $node)
+	{
+		/** @var AClass $a */
+		/** @var AClass $b */
+		list($a, $b) = $node;
+		echo "    renamed $a\n";
+		echo "         to $b\n";
+	}
+	foreach ($set->renamedMethods as $node)
+	{
+		/** @var AMethod $a */
+		/** @var AMethod $b */
+		list($a, $b) = $node;
+		echo "    renamed $a\n";
+		echo "         to $b\n";
+	}
+	foreach ($set->changedMethodParameters as $node)
+	{
+		list($methodA, $methodB) = $node;
+		echo "    changed $methodA\n";
+		echo "         to $methodB\n";
+	}
+	foreach ($set->changedMethods as $method)
+	{
+		echo "    changed $method\n";
 	}
 
 	echo "\n";
