@@ -91,12 +91,24 @@ foreach ($regexes as $type => $regex)
 			$signature = "$class::$m[name]";
 		}
 		$lines = [];
+		$totalLines = 0;
+		foreach ($authors[$signature] as $info)
+		{
+			$totalLines += $info['lines'];
+		}
 		foreach ($authors[$signature] as $email => $info)
 		{
 			$name = $names[$email];
-			$post = $info['originalAuthor'] ? ' original author' : '';
-			$count = $info['lines'];
-			$lines[] = "$m[space] * @author $name <$email> {$count}{$post}";
+			if (count($authors[$signature]) > 1)
+			{
+				$post = $info['originalAuthor'] ? ', original author' : '';
+				$count = round($info['lines'] / $totalLines * 100, 0);
+				$lines[] = "$m[space] * @author $name <$email> $count %$post";
+			}
+			else
+			{
+				$lines[] = "$m[space] * @author $name <$email>";
+			}
 		}
 		if ($m['phpdoc'])
 		{
