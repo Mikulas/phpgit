@@ -29,8 +29,6 @@ class ComposerUpdate
 
 		$old = $this->simplify($a);
 		$new = $this->simplify($b);
-		file_put_contents(__DIR__ . '/a', $lockA);
-		file_put_contents(__DIR__ . '/b', $lockB);
 
 		foreach ($old as $name => $version)
 		{

@@ -1,4 +1,5 @@
 TODO:
+	remove duplicate lines in every key
 	list who introduced method, list all author, show by last change and line out
 	merge sets per commit so the output is ordered properly
 	optionally filter out commits without changes

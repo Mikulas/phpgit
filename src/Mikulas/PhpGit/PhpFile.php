@@ -63,7 +63,7 @@ class PhpFile
 			}
 
 		} catch (PhpParser\Error $e) {
-			// echo 'Parse Error: ', $e->getMessage()  . "\n";
+			echo 'Parse Error: ', $e->getMessage()  . "\n";
 		}
 	}
 

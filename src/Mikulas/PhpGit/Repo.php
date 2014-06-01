@@ -36,16 +36,21 @@ class Repo
 
 	public function getCommitChanges($hash)
 	{
-		$out = $this->run('show -U0 --find-copies-harder %s', $hash);
+		$out = $this->run('show -U0 --find-renames %s', $hash);
 
 		$files = [];
 		$file = NULL;
+		$isCopy = FALSE;
 		foreach (explode("\n", $out) as $line)
 		{
 			if (strpos($line, 'diff --git') === 0)
 			{
 				if ($file)
 				{
+					if ($isCopy)
+					{
+						$file['fileA'] = NULL;
+					}
 					$files[] = $file;
 				}
 				$file = [
@@ -53,6 +58,10 @@ class Repo
 					'fileB' => NULL,
 					'edits' => [],
 				];
+			}
+			else if (strpos($line, 'copy from') === 0)
+			{
+				$isCopy = TRUE;
 			}
 			else if (strpos($line, '--- ') === 0)
 			{
@@ -69,6 +78,11 @@ class Repo
 				list($beginB, $lengthB) = explode(',', $to) + [NULL, 1];
 				$file['edits'][] = new Edit(abs($beginA), $lengthA, $beginB, $lengthB);
 			}
+		}
+
+		if ($isCopy)
+		{
+			$file['fileA'] = NULL;
 		}
 		$files[] = $file;
 

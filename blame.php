@@ -3,6 +3,8 @@
 use Mikulas\PhpGit\AClass;
 use Mikulas\PhpGit\AMethod;
 use Mikulas\PhpGit\ChangeSet;
+use Mikulas\PhpGit\PhpFile;
+
 
 list($index, $commits, $names) = require __DIR__ . '/bootstrap.php';
 
@@ -11,55 +13,105 @@ foreach (array_reverse($commits) as $commit)
 {
 	list($rev, $time, $email, $subject) = $commit;
 
-//	dump($rev);
-
 	/** @var ChangeSet $set */
-	foreach ($index[$rev] as $set)
+	$set = $index[$rev]->changeset;
+	if (!$set)
 	{
-		foreach ($set->addedClasses as $class)
-		{
-			$authors[(string) $class][$email] = [
-				'originalAuthor' => TRUE,
-				'lines' => $class->linesAffected,
-			];
+		continue;
+	}
+	foreach ($set->addedClasses as $class)
+	{
+		$authors[(string) $class][$email] = [
+			'originalAuthor' => TRUE,
+			'lines' => $class->linesAffected,
+		];
 
-			foreach ($class->methods as $method)
-			{
-				addMethod($authors, $email, $method);
-			}
-		}
-		foreach ($set->renamedClasses as $node)
-		{
-			list($classA, $classB) = $node;
-			$authors[(string) $classB] = $authors[(string) $classA];
-
-			/** @var AMethod $methodA */
-			foreach ($classA->methods as $i => $methodA)
-			{
-				/** @var AMethod $methodB */
-				$methodB = $classB->methods[$i];
-				$authors[$methodB->toShortString()] = $authors[$methodA->toShortString()];
-			}
-		}
-
-		foreach ($set->addedMethods as $method)
+		foreach ($class->methods as $method)
 		{
 			addMethod($authors, $email, $method);
 		}
-		foreach ($set->renamedMethods as $node)
+	}
+	foreach ($set->renamedClasses as $node)
+	{
+		list($classA, $classB) = $node;
+
+		$authors[(string) $classB] = isset($authors[(string) $classA])
+			? $authors[(string) $classA]
+			: []; // might not be set due to parse errors
+
+		/** @var AMethod $methodA */
+		foreach ($classA->methods as $i => $methodA)
 		{
-			list($methodA, $methodB) = $node;
-			changeMethod($authors, $email, $methodA, $methodB);
-		}
-		foreach ($set->changedMethods as $method)
-		{
-			changeMethod($authors, $email, $method);
+			/** @var AMethod $methodB */
+			$methodB = $classB->methods[$i];
+			$authors[$methodB->toShortString()] = isset($authors[$methodA->toShortString()])
+				? $authors[$methodA->toShortString()]
+				: []; // might not be set due to parse errors
 		}
 	}
 
+	foreach ($set->addedMethods as $method)
+	{
+		addMethod($authors, $email, $method);
+	}
+	foreach ($set->renamedMethods as $node)
+	{
+		list($methodA, $methodB) = $node;
+		changeMethod($authors, $email, $methodA, $methodB);
+	}
+	foreach ($set->changedMethods as $method)
+	{
+		changeMethod($authors, $email, $method);
+	}
+
 }
-dump($authors);
+//dump($authors);
 dump('done');
+
+$file = file_get_contents($argv[2]);
+$match = [];
+preg_match('~namespace\s*(?P<ns>([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*\\\\?)+)\s*;~i', $file, $match);
+$ns = isset($match['ns']) ? $match['ns'] : NULL;
+$regexes = [
+	'class' => '~^(?P<space>[ \t]*)(?P<phpdoc>/\*\*.*?\*/)?(?P<rest>\s*(final|abstract)?\s*class\s+(?P<name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*))~ims',
+	'method' => '~^(?P<space>[ \t]*)(?P<phpdoc>/\*\*((?!\\*/).)*?\*/)?(?P<rest>\s*((public|protected|private|abstract|final|static)\s+)*\s*function\s+(?P<name>[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*))~ims',
+];
+$class = NULL;
+foreach ($regexes as $type => $regex)
+{
+	$file = preg_replace_callback($regex, function($m) use ($ns, $authors, $names, $type, &$class) {
+		if ($type === 'class')
+		{
+			$signature = $ns . '\\' . $m['name'];
+			$class = $signature;
+		}
+		else
+		{
+			dump($m);
+			$signature = "$class::$m[name]";
+		}
+		$lines = [];
+		foreach ($authors[$signature] as $email => $info)
+		{
+			$name = $names[$email];
+			$post = $info['originalAuthor'] ? ' original author' : '';
+			$count = $info['lines'];
+			$lines[] = "$m[space] * @author $name <$email> {$count}{$post}";
+		}
+		if ($m['phpdoc'])
+		{
+			$lines[] = "$m[space] *";
+			$docEnd = substr($m['phpdoc'], 4);
+			return "$m[space]/**\n\x02" . implode("\n", $lines) . "\n\x03$docEnd" . $m['rest'];
+		}
+		else
+		{
+			return "$m[space]\x02/*" . implode("\n", $lines) . "\n */\x03" . $m['rest'];
+		}
+
+	}, $file);
+}
+echo $file;
 
 /**
  * @param array $authors
