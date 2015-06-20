@@ -1,0 +1,1526 @@
+array(
+	PhpParser\Node\Stmt\Class_::__set_state(array(
+		'type' => 0,
+		'extends' => PhpParser\Node\Name::__set_state(array(
+			'parts' => array('Object'),
+			'subNodeNames' => NULL,
+			'attributes' => array('startLine' => 17, 'endLine' => 17),
+		)),
+		'implements' => array(),
+		'name' => 'HelperLoader',
+		'stmts' => array(
+			PhpParser\Node\Stmt\Property::__set_state(array(
+				'type' => 4,
+				'props' => array(
+					PhpParser\Node\Stmt\PropertyProperty::__set_state(array(
+						'name' => 'wpCaller',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 21, 'endLine' => 21),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => '/** @var WpCaller */',
+							'line' => 20,
+						)),
+					),
+					'startLine' => 21,
+					'endLine' => 21,
+				),
+			)),
+			PhpParser\Node\Stmt\Property::__set_state(array(
+				'type' => 4,
+				'props' => array(
+					PhpParser\Node\Stmt\PropertyProperty::__set_state(array(
+						'name' => 'imageRenderer',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 24, 'endLine' => 24),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => '/** @var ImageRenderer */',
+							'line' => 23,
+						)),
+					),
+					'startLine' => 24,
+					'endLine' => 24,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 0,
+				'byRef' => FALSE,
+				'name' => '__construct',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => PhpParser\Node\Name::__set_state(array(
+							'parts' => array('WpCaller'),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 31, 'endLine' => 31),
+						)),
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'wpCaller',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 31, 'endLine' => 31),
+					)),
+					PhpParser\Node\Param::__set_state(array(
+						'type' => PhpParser\Node\Name::__set_state(array(
+							'parts' => array('ImageRenderer'),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 31, 'endLine' => 31),
+						)),
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'imageRenderer',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 31, 'endLine' => 31),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Expr\Assign::__set_state(array(
+						'var' => PhpParser\Node\Expr\PropertyFetch::__set_state(array(
+							'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+								'name' => 'this',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 33, 'endLine' => 33),
+							)),
+							'name' => 'wpCaller',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 33, 'endLine' => 33),
+						)),
+						'expr' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'wpCaller',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 33, 'endLine' => 33),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 33, 'endLine' => 33),
+					)),
+					PhpParser\Node\Expr\Assign::__set_state(array(
+						'var' => PhpParser\Node\Expr\PropertyFetch::__set_state(array(
+							'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+								'name' => 'this',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 34, 'endLine' => 34),
+							)),
+							'name' => 'imageRenderer',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 34, 'endLine' => 34),
+						)),
+						'expr' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'imageRenderer',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 34, 'endLine' => 34),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 34, 'endLine' => 34),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * @param WpCaller \$wpCaller\n\t * @param ImageRenderer \$imageRenderer\n\t */",
+							'line' => 27,
+						)),
+					),
+					'startLine' => 31,
+					'endLine' => 35,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'register',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => PhpParser\Node\Name::__set_state(array(
+							'parts' => array('Engine'),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 38, 'endLine' => 38),
+						)),
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'engine',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 38, 'endLine' => 38),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Expr\MethodCall::__set_state(array(
+						'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'engine',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 40, 'endLine' => 40),
+						)),
+						'name' => 'addFilter',
+						'args' => array(
+							PhpParser\Node\Arg::__set_state(array(
+								'value' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+									'name' => PhpParser\Node\Name::__set_state(array(
+										'parts' => array('NULL'),
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 40, 'endLine' => 40),
+									)),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 40, 'endLine' => 40),
+								)),
+								'byRef' => FALSE,
+								'unpack' => FALSE,
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 40, 'endLine' => 40),
+							)),
+							PhpParser\Node\Arg::__set_state(array(
+								'value' => PhpParser\Node\Expr\Array_::__set_state(array(
+									'items' => array(
+										PhpParser\Node\Expr\ArrayItem::__set_state(array(
+											'key' => NULL,
+											'value' => /* Nesting level too deep */,
+											'byRef' => FALSE,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										PhpParser\Node\Expr\ArrayItem::__set_state(array(
+											'key' => NULL,
+											'value' => /* Nesting level too deep */,
+											'byRef' => FALSE,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+									),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 40, 'endLine' => 40),
+								)),
+								'byRef' => FALSE,
+								'unpack' => FALSE,
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 40, 'endLine' => 40),
+							)),
+						),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 40, 'endLine' => 40),
+					)),
+					PhpParser\Node\Expr\MethodCall::__set_state(array(
+						'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'engine',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 41, 'endLine' => 41),
+						)),
+						'name' => 'addFilter',
+						'args' => array(
+							PhpParser\Node\Arg::__set_state(array(
+								'value' => PhpParser\Node\Scalar\String_::__set_state(array(
+									'value' => 'date',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 41, 'endLine' => 41),
+								)),
+								'byRef' => FALSE,
+								'unpack' => FALSE,
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 41, 'endLine' => 41),
+							)),
+							PhpParser\Node\Arg::__set_state(array(
+								'value' => PhpParser\Node\Expr\Array_::__set_state(array(
+									'items' => array(
+										PhpParser\Node\Expr\ArrayItem::__set_state(array(
+											'key' => NULL,
+											'value' => /* Nesting level too deep */,
+											'byRef' => FALSE,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										PhpParser\Node\Expr\ArrayItem::__set_state(array(
+											'key' => NULL,
+											'value' => /* Nesting level too deep */,
+											'byRef' => FALSE,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+									),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 41, 'endLine' => 41),
+								)),
+								'byRef' => FALSE,
+								'unpack' => FALSE,
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 41, 'endLine' => 41),
+							)),
+						),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 41, 'endLine' => 41),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array('startLine' => 38, 'endLine' => 42),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'loader',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'helperName',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 50, 'endLine' => 50),
+					)),
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => TRUE,
+						'name' => 'params',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 50, 'endLine' => 50),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\Ternary::__set_state(array(
+							'cond' => PhpParser\Node\Expr\FuncCall::__set_state(array(
+								'name' => PhpParser\Node\Name::__set_state(array(
+									'parts' => array('method_exists'),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 52, 'endLine' => 52),
+								)),
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'this',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 52, 'endLine' => 52),
+									)),
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'helperName',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 52, 'endLine' => 52),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 52, 'endLine' => 52),
+							)),
+							'if' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'this',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 52, 'endLine' => 52),
+								)),
+								'name' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'helperName',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 52, 'endLine' => 52),
+								)),
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'params',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => TRUE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 52, 'endLine' => 52),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 52, 'endLine' => 52),
+							)),
+							'else' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+								'name' => PhpParser\Node\Name::__set_state(array(
+									'parts' => array('NULL'),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 52, 'endLine' => 52),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 52, 'endLine' => 52),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 52, 'endLine' => 52),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 52, 'endLine' => 52),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * @param  string \$helperName\n\t * @param  mixed  ...\$params\n\t * @return mixed\n\t */",
+							'line' => 45,
+						)),
+					),
+					'startLine' => 50,
+					'endLine' => 53,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'parseShortcodes',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'text',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 62, 'endLine' => 62),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+							'var' => PhpParser\Node\Expr\PropertyFetch::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'this',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 64, 'endLine' => 64),
+								)),
+								'name' => 'wpCaller',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 64, 'endLine' => 64),
+							)),
+							'name' => 'do_shortcode',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'text',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 64, 'endLine' => 64),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 64, 'endLine' => 64),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 64, 'endLine' => 64),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 64, 'endLine' => 64),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * Parses WP Shortcodes\n\t *\n\t * @param  string \$text\n\t * @return string\n\t */",
+							'line' => 56,
+						)),
+					),
+					'startLine' => 62,
+					'endLine' => 65,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'attachmentUrl',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'postId',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 72, 'endLine' => 72),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+							'var' => PhpParser\Node\Expr\PropertyFetch::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'this',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 74, 'endLine' => 74),
+								)),
+								'name' => 'wpCaller',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 74, 'endLine' => 74),
+							)),
+							'name' => 'wp_get_attachment_url',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'postId',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 74, 'endLine' => 74),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 74, 'endLine' => 74),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 74, 'endLine' => 74),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 74, 'endLine' => 74),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * @param int \$postId\n\t * @return bool|string\n\t */",
+							'line' => 68,
+						)),
+					),
+					'startLine' => 72,
+					'endLine' => 75,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'dateOrNow',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'date',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 85, 'endLine' => 85),
+					)),
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'format',
+						'default' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+							'name' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('NULL'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 85, 'endLine' => 85),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 85, 'endLine' => 85),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 85, 'endLine' => 85),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\If_::__set_state(array(
+						'cond' => PhpParser\Node\Expr\BinaryOp\Greater::__set_state(array(
+							'left' => PhpParser\Node\Expr\FuncCall::__set_state(array(
+								'name' => PhpParser\Node\Name::__set_state(array(
+									'parts' => array('strtotime'),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 87, 'endLine' => 87),
+								)),
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'date',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 87, 'endLine' => 87),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 87, 'endLine' => 87),
+							)),
+							'right' => PhpParser\Node\Scalar\LNumber::__set_state(array(
+								'value' => 0,
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 87, 'endLine' => 87),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 87, 'endLine' => 87),
+						)),
+						'stmts' => array(
+							PhpParser\Node\Expr\Assign::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'date',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 88, 'endLine' => 88),
+								)),
+								'expr' => PhpParser\Node\Expr\New_::__set_state(array(
+									'class' => PhpParser\Node\Name::__set_state(array(
+										'parts' => array('DateTime'),
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 88, 'endLine' => 88),
+									)),
+									'args' => array(
+										PhpParser\Node\Arg::__set_state(array(
+											'value' => /* Nesting level too deep */,
+											'byRef' => FALSE,
+											'unpack' => FALSE,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+									),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 88, 'endLine' => 88),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 88, 'endLine' => 88),
+							)),
+						),
+						'elseifs' => array(),
+						'else' => PhpParser\Node\Stmt\Else_::__set_state(array(
+							'stmts' => array(
+								PhpParser\Node\Expr\Assign::__set_state(array(
+									'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'date',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 91, 'endLine' => 91),
+									)),
+									'expr' => PhpParser\Node\Expr\New_::__set_state(array(
+										'class' => PhpParser\Node\Name::__set_state(array(
+											'parts' => /* Nesting level too deep or recursive dependency */,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'args' => array(),
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 91, 'endLine' => 91),
+									)),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 91, 'endLine' => 91),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 90, 'endLine' => 92),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 87, 'endLine' => 92),
+					)),
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\StaticCall::__set_state(array(
+							'class' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('Filters'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 94, 'endLine' => 94),
+							)),
+							'name' => 'date',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'date',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 94, 'endLine' => 94),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 94, 'endLine' => 94),
+								)),
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'format',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 94, 'endLine' => 94),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 94, 'endLine' => 94),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 94, 'endLine' => 94),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 94, 'endLine' => 94),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * Formats datetime, return current datetime when param date is invalid\n\t *\n\t * @param string|int|DateTime \$date\n\t * @param string \$format\n\t * @return string\n\t */",
+							'line' => 78,
+						)),
+					),
+					'startLine' => 85,
+					'endLine' => 95,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'postImage',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'id',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 103, 'endLine' => 103),
+					)),
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'mode',
+						'default' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+							'name' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('NULL'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 103, 'endLine' => 103),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 103, 'endLine' => 103),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 103, 'endLine' => 103),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+							'var' => PhpParser\Node\Expr\PropertyFetch::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'this',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 105, 'endLine' => 105),
+								)),
+								'name' => 'imageRenderer',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 105, 'endLine' => 105),
+							)),
+							'name' => 'getImageHtml',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'id',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 105, 'endLine' => 105),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 105, 'endLine' => 105),
+								)),
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'mode',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 105, 'endLine' => 105),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 105, 'endLine' => 105),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 105, 'endLine' => 105),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 105, 'endLine' => 105),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * @param int \$id\n\t * @param NULL \$mode\n\t * @return string\n\t */",
+							'line' => 98,
+						)),
+					),
+					'startLine' => 103,
+					'endLine' => 106,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'prettyRange',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'rawFrom',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 120, 'endLine' => 120),
+					)),
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'rawTo',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 120, 'endLine' => 120),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Expr\Assign::__set_state(array(
+						'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'from',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 122, 'endLine' => 122),
+						)),
+						'expr' => PhpParser\Node\Expr\New_::__set_state(array(
+							'class' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('DateTime'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 122, 'endLine' => 122),
+							)),
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'rawFrom',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 122, 'endLine' => 122),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 122, 'endLine' => 122),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 122, 'endLine' => 122),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 122, 'endLine' => 122),
+					)),
+					PhpParser\Node\Expr\Assign::__set_state(array(
+						'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'to',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 123, 'endLine' => 123),
+						)),
+						'expr' => PhpParser\Node\Expr\New_::__set_state(array(
+							'class' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('DateTime'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 123, 'endLine' => 123),
+							)),
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'rawTo',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 123, 'endLine' => 123),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 123, 'endLine' => 123),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 123, 'endLine' => 123),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 123, 'endLine' => 123),
+					)),
+					PhpParser\Node\Expr\Assign::__set_state(array(
+						'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'sameYear',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 125, 'endLine' => 125),
+						)),
+						'expr' => PhpParser\Node\Expr\BinaryOp\Identical::__set_state(array(
+							'left' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'from',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 125, 'endLine' => 125),
+								)),
+								'name' => 'format',
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Scalar\String_::__set_state(array(
+											'value' => 'Y',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 125, 'endLine' => 125),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 125, 'endLine' => 125),
+							)),
+							'right' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'to',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 125, 'endLine' => 125),
+								)),
+								'name' => 'format',
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Scalar\String_::__set_state(array(
+											'value' => 'Y',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 125, 'endLine' => 125),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 125, 'endLine' => 125),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 125, 'endLine' => 125),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 125, 'endLine' => 125),
+					)),
+					PhpParser\Node\Expr\Assign::__set_state(array(
+						'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+							'name' => 'sameMonth',
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 126, 'endLine' => 126),
+						)),
+						'expr' => PhpParser\Node\Expr\BinaryOp\Identical::__set_state(array(
+							'left' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'from',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 126, 'endLine' => 126),
+								)),
+								'name' => 'format',
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Scalar\String_::__set_state(array(
+											'value' => 'm',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 126, 'endLine' => 126),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 126, 'endLine' => 126),
+							)),
+							'right' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'to',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 126, 'endLine' => 126),
+								)),
+								'name' => 'format',
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Scalar\String_::__set_state(array(
+											'value' => 'm',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 126, 'endLine' => 126),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 126, 'endLine' => 126),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 126, 'endLine' => 126),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 126, 'endLine' => 126),
+					)),
+					PhpParser\Node\Stmt\If_::__set_state(array(
+						'cond' => PhpParser\Node\Expr\BooleanNot::__set_state(array(
+							'expr' => PhpParser\Node\Expr\Variable::__set_state(array(
+								'name' => 'sameYear',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 128, 'endLine' => 128),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 128, 'endLine' => 128),
+						)),
+						'stmts' => array(
+							PhpParser\Node\Stmt\Return_::__set_state(array(
+								'expr' => PhpParser\Node\Expr\BinaryOp\Concat::__set_state(array(
+									'left' => PhpParser\Node\Expr\BinaryOp\Concat::__set_state(array(
+										'left' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+											'var' => /* Nesting level too deep */,
+											'name' => 'format',
+											'args' => /* Nesting level too deep or recursive dependency */,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'right' => PhpParser\Node\Scalar\String_::__set_state(array(
+											'value' => ' – ',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 129, 'endLine' => 129),
+									)),
+									'right' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+										'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'to',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'name' => 'format',
+										'args' => array(/* Nesting level too deep */),
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 129, 'endLine' => 129),
+									)),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 129, 'endLine' => 129),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 129, 'endLine' => 129),
+							)),
+						),
+						'elseifs' => array(),
+						'else' => PhpParser\Node\Stmt\Else_::__set_state(array(
+							'stmts' => array(
+								PhpParser\Node\Stmt\If_::__set_state(array(
+									'cond' => PhpParser\Node\Expr\BooleanNot::__set_state(array(
+										'expr' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'sameMonth',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 131, 'endLine' => 131),
+									)),
+									'stmts' => array(
+										PhpParser\Node\Stmt\Return_::__set_state(array(
+											'expr' => /* Nesting level too deep */,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+									),
+									'elseifs' => array(),
+									'else' => NULL,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 131, 'endLine' => 134),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 131, 'endLine' => 134),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 128, 'endLine' => 134),
+					)),
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\BinaryOp\Concat::__set_state(array(
+							'left' => PhpParser\Node\Expr\BinaryOp\Concat::__set_state(array(
+								'left' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+									'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'from',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 137, 'endLine' => 137),
+									)),
+									'name' => 'format',
+									'args' => array(
+										PhpParser\Node\Arg::__set_state(array(
+											'value' => /* Nesting level too deep */,
+											'byRef' => FALSE,
+											'unpack' => FALSE,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+									),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 137, 'endLine' => 137),
+								)),
+								'right' => PhpParser\Node\Scalar\String_::__set_state(array(
+									'value' => '–',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 137, 'endLine' => 137),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 137, 'endLine' => 137),
+							)),
+							'right' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'to',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 137, 'endLine' => 137),
+								)),
+								'name' => 'format',
+								'args' => array(
+									PhpParser\Node\Arg::__set_state(array(
+										'value' => PhpParser\Node\Scalar\String_::__set_state(array(
+											'value' => 'j. n. Y',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'byRef' => FALSE,
+										'unpack' => FALSE,
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 137, 'endLine' => 137),
+									)),
+								),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 137, 'endLine' => 137),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 137, 'endLine' => 137),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array(
+							'comments' => array(
+								PhpParser\Comment::__set_state(array(
+									'text' => "// intentionally not spaces around dash, see @see\n",
+									'line' => 136,
+								)),
+							),
+							'startLine' => 137,
+							'endLine' => 137,
+						),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * 1.-4. 12. 2015\n\t * 30. 2. - 3. 3. 2015\n\t * 28. 12. 2015 - 2. 1. 2016\n\t *\n\t * @see http://prirucka.ujc.cas.cz/?id=810\n\t *\n\t * @param mixed \$rawFrom\n\t * @param mixed \$rawTo\n\t * @return string safe\n\t */",
+							'line' => 109,
+						)),
+					),
+					'startLine' => 120,
+					'endLine' => 138,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'issueRange',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => PhpParser\Node\Name::__set_state(array(
+							'parts' => array('Issue'),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 141, 'endLine' => 141),
+						)),
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'issue',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 141, 'endLine' => 141),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+							'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+								'name' => 'this',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 143, 'endLine' => 143),
+							)),
+							'name' => 'prettyRange',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\PropertyFetch::__set_state(array(
+										'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'issue',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'name' => 'active_from',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 143, 'endLine' => 143),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 143, 'endLine' => 143),
+								)),
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\PropertyFetch::__set_state(array(
+										'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+											'name' => 'issue',
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'name' => 'active_to',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 143, 'endLine' => 143),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 143, 'endLine' => 143),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 143, 'endLine' => 143),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 143, 'endLine' => 143),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array('startLine' => 141, 'endLine' => 144),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'anchorifyHeaders',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'content',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 153, 'endLine' => 153),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\MethodCall::__set_state(array(
+							'var' => PhpParser\Node\Expr\New_::__set_state(array(
+								'class' => PhpParser\Node\Name::__set_state(array(
+									'parts' => array('MarkupFixer'),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 155, 'endLine' => 155),
+								)),
+								'args' => array(),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 155, 'endLine' => 155),
+							)),
+							'name' => 'fix',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'content',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 155, 'endLine' => 155),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 155, 'endLine' => 155),
+								)),
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\ClassConstFetch::__set_state(array(
+										'class' => PhpParser\Node\Name::__set_state(array(
+											'parts' => /* Nesting level too deep or recursive dependency */,
+											'subNodeNames' => NULL,
+											'attributes' => /* Nesting level too deep or recursive dependency */,
+										)),
+										'name' => 'TOP_LEVEL',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 155, 'endLine' => 155),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 155, 'endLine' => 155),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 155, 'endLine' => 155),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 155, 'endLine' => 155),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array(
+					'comments' => array(
+						PhpParser\Comment\Doc::__set_state(array(
+							'text' => "/**\n\t * Ads slugified ID/anchors to header tags\n\t *\n\t * @param string\$content\n\t * @return string\n\t */",
+							'line' => 147,
+						)),
+					),
+					'startLine' => 153,
+					'endLine' => 156,
+				),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'date',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'time',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 159, 'endLine' => 159),
+					)),
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'format',
+						'default' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+							'name' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('NULL'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 159, 'endLine' => 159),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 159, 'endLine' => 159),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 159, 'endLine' => 159),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\If_::__set_state(array(
+						'cond' => PhpParser\Node\Expr\BinaryOp\Identical::__set_state(array(
+							'left' => PhpParser\Node\Expr\Variable::__set_state(array(
+								'name' => 'format',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 161, 'endLine' => 161),
+							)),
+							'right' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+								'name' => PhpParser\Node\Name::__set_state(array(
+									'parts' => array('NULL'),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 161, 'endLine' => 161),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 161, 'endLine' => 161),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 161, 'endLine' => 161),
+						)),
+						'stmts' => array(
+							PhpParser\Node\Expr\Assign::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'format',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 162, 'endLine' => 162),
+								)),
+								'expr' => PhpParser\Node\Scalar\String_::__set_state(array(
+									'value' => 'j. n. Y',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 162, 'endLine' => 162),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 162, 'endLine' => 162),
+							)),
+						),
+						'elseifs' => array(),
+						'else' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 161, 'endLine' => 163),
+					)),
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\StaticCall::__set_state(array(
+							'class' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('Filters'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 165, 'endLine' => 165),
+							)),
+							'name' => 'date',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'time',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 165, 'endLine' => 165),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 165, 'endLine' => 165),
+								)),
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'format',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 165, 'endLine' => 165),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 165, 'endLine' => 165),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 165, 'endLine' => 165),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 165, 'endLine' => 165),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array('startLine' => 159, 'endLine' => 166),
+			)),
+			PhpParser\Node\Stmt\ClassMethod::__set_state(array(
+				'type' => 1,
+				'byRef' => FALSE,
+				'name' => 'datetime',
+				'params' => array(
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'time',
+						'default' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 169, 'endLine' => 169),
+					)),
+					PhpParser\Node\Param::__set_state(array(
+						'type' => NULL,
+						'byRef' => FALSE,
+						'variadic' => FALSE,
+						'name' => 'format',
+						'default' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+							'name' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('NULL'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 169, 'endLine' => 169),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 169, 'endLine' => 169),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 169, 'endLine' => 169),
+					)),
+				),
+				'returnType' => NULL,
+				'stmts' => array(
+					PhpParser\Node\Stmt\If_::__set_state(array(
+						'cond' => PhpParser\Node\Expr\BinaryOp\Identical::__set_state(array(
+							'left' => PhpParser\Node\Expr\Variable::__set_state(array(
+								'name' => 'format',
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 171, 'endLine' => 171),
+							)),
+							'right' => PhpParser\Node\Expr\ConstFetch::__set_state(array(
+								'name' => PhpParser\Node\Name::__set_state(array(
+									'parts' => array('NULL'),
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 171, 'endLine' => 171),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 171, 'endLine' => 171),
+							)),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 171, 'endLine' => 171),
+						)),
+						'stmts' => array(
+							PhpParser\Node\Expr\Assign::__set_state(array(
+								'var' => PhpParser\Node\Expr\Variable::__set_state(array(
+									'name' => 'format',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 172, 'endLine' => 172),
+								)),
+								'expr' => PhpParser\Node\Scalar\String_::__set_state(array(
+									'value' => 'j. n. Y G:i',
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 172, 'endLine' => 172),
+								)),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 172, 'endLine' => 172),
+							)),
+						),
+						'elseifs' => array(),
+						'else' => NULL,
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 171, 'endLine' => 173),
+					)),
+					PhpParser\Node\Stmt\Return_::__set_state(array(
+						'expr' => PhpParser\Node\Expr\StaticCall::__set_state(array(
+							'class' => PhpParser\Node\Name::__set_state(array(
+								'parts' => array('Filters'),
+								'subNodeNames' => NULL,
+								'attributes' => array('startLine' => 175, 'endLine' => 175),
+							)),
+							'name' => 'date',
+							'args' => array(
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'time',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 175, 'endLine' => 175),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 175, 'endLine' => 175),
+								)),
+								PhpParser\Node\Arg::__set_state(array(
+									'value' => PhpParser\Node\Expr\Variable::__set_state(array(
+										'name' => 'format',
+										'subNodeNames' => NULL,
+										'attributes' => array('startLine' => 175, 'endLine' => 175),
+									)),
+									'byRef' => FALSE,
+									'unpack' => FALSE,
+									'subNodeNames' => NULL,
+									'attributes' => array('startLine' => 175, 'endLine' => 175),
+								)),
+							),
+							'subNodeNames' => NULL,
+							'attributes' => array('startLine' => 175, 'endLine' => 175),
+						)),
+						'subNodeNames' => NULL,
+						'attributes' => array('startLine' => 175, 'endLine' => 175),
+					)),
+				),
+				'subNodeNames' => NULL,
+				'attributes' => array('startLine' => 169, 'endLine' => 176),
+			)),
+		),
+		'subNodeNames' => NULL,
+		'attributes' => array('startLine' => 17, 'endLine' => 178),
+	)),
+)
