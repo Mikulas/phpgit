@@ -24,12 +24,52 @@ class Comparator
 		asort($removed);
 		asort($added);
 
+		$last = '';
 		foreach ($removed as $line) {
-			echo "- $line\n";
+			$this->output($line, $this->red('-'), $last);
 		}
 		foreach ($added as $line) {
-			echo "+ $line\n";
+			$this->output($line, $this->green('+'), $last);
 		}
+	}
+
+	private function output($line, $prefix, &$last)
+	{
+		list($ns, $main, $args) = $this->split($line);
+		$printBefore = str_replace($last, str_repeat(' ', strlen($last)), $ns);
+		echo $prefix . " " . $this->gray($printBefore) . $main . $this->gray($args) .  "\n";
+		$last = $ns;
+	}
+
+	private function green($text)
+	{
+		return "\033[32m$text\033[0m";
+	}
+
+	private function red($text)
+	{
+		return "\033[31m$text\033[0m";
+	}
+
+	private function gray($text)
+	{
+		return "\033[37m$text\033[0m";
+	}
+
+	private function split($fqn)
+	{
+		$slash = strrpos($fqn, '\\') + 1;
+		$ns = substr($fqn, 0, $slash);
+		$main = substr($fqn, $slash);
+
+		$bracket = strpos($main, '(');
+		$args = '';
+		if ($bracket) {
+			$args = substr($main, $bracket);
+			$main = substr($main, 0, $bracket);
+		}
+
+		return [$ns, $main, $args];
 	}
 
 
