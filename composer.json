@@ -16,5 +16,6 @@
     "autoload": {
         "classmap": ["src"]
     },
+    "bin": ["bin/diff"],
     "minimum-stability": "stable"
 }

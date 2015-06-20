@@ -1,0 +1,28 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$repoDir = getcwd();
+while (!file_exists("$repoDir/.git") && $repoDir !== '/') {
+	$repoDir = dirname($repoDir);
+}
+if (!file_exists("$repoDir/.git")) {
+	echo "fatal: Not a git repository (or any of the parent directories): .git\n";
+	exit(1);
+}
+
+if ($argc !== 3) {
+	echo "Usage: $argv[0] revSelA revSelB\n";
+	exit(2);
+}
+
+$revSelA = $argv[1];
+$revSelB = $argv[2];
+
+$repo = new Repository($repoDir);
+$comp = new Comparator();
+$parser = new \PhpParser\Parser(new \PhpParser\Lexer());
+
+$diff = new Diff($repo, $comp, $parser);
+$diff->compare($revSelA, $revSelB);
