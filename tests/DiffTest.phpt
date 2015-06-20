@@ -15,7 +15,7 @@ class DiffTest extends Tester\TestCase
 		$parser = new \PhpParser\Parser(new \PhpParser\Lexer());
 
 		$diff = new Diff($repo, $comp, $parser);
-		$diff->compare('HEAD~10', 'HEAD');
+		$diff->compare('HEAD~50', 'HEAD');
 
 		Assert::false(TRUE);
 	}

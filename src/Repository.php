@@ -49,7 +49,8 @@ class Repository
 			return $this->call('show', "$revSel:$file");
 
 		} catch (RuntimeException $e) {
-			if (strpos($e->getMessage(), 'exists on disk, but not in') !== FALSE) {
+			if (FALSE !== strpos($e->getMessage(), 'exists on disk, but not in')
+			 || FALSE !== strpos($e->getMessage(), 'does not exist in')) {
 				return '';
 			}
 			throw $e;

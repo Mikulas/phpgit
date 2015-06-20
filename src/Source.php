@@ -19,16 +19,16 @@ class Source
 
 
 	/**
-	 * @return PhpParser\Node\Stmt\ClassLike[]
+	 * @return TopClassLike[]
 	 */
 	public function getSimplified()
 	{
-		/** @var PhpParser\Node\Stmt\ClassLike $classes */
+		/** @var TopClassLike[] $classes */
 		$classes = [];
 
 		foreach ($this->tree as $node) {
-			foreach ($this->findClassLike($node) as $class) {
-				$classes[] = $this->simplifyClass($class);
+			foreach ($this->findClassLike($node) as list($class, $namespace)) {
+				$classes[] = $this->simplifyClass($class, $namespace);
 			}
 		}
 
@@ -38,18 +38,18 @@ class Source
 
 	/**
 	 * @param PhpParser\Node $node
-	 * @return PhpParser\Node\Stmt\ClassLike[]
+	 * @return array [PhpParser\Node\Stmt\ClassLike, string namespace]
 	 */
 	private function findClassLike(PhpParser\Node $node)
 	{
 		if ($node instanceof PhpParser\Node\Stmt\ClassLike) {
-			yield $node;
+			yield [$node, ''];
 
 		} else {
 			if ($node instanceof PhpParser\Node\Stmt\Namespace_) {
 				foreach ($node->stmts as $subNode) {
-					foreach ($this->findClassLike($subNode) as $class) {
-						yield $class;
+					foreach ($this->findClassLike($subNode) as list($class, $_)) {
+						yield [$class, $node->name];
 					}
 				}
 			}
@@ -59,21 +59,22 @@ class Source
 
 	/**
 	 * @param PhpParser\Node\Stmt\ClassLike $class
-	 * @return PhpParser\Node\Stmt\ClassLike $class
+	 * @param string $namespace
+	 * @return TopClassLike $class
 	 */
-	private function simplifyClass(PhpParser\Node\Stmt\ClassLike $class)
+	private function simplifyClass(PhpParser\Node\Stmt\ClassLike $class, $namespace)
 	{
-		$class->properties = [];
+		$properties = [];
 		foreach ($this->findProperties($class) as $property) {
-			$class->properties[] = $property;
+			$properties[] = $property;
 		}
 
-		$class->methods = [];
+		$methods = [];
 		foreach ($this->findMethods($class) as $method) {
-			$class->methods[] = $method;
+			$methods[] = $method;
 		}
 
-		return $class;
+		return new TopClassLike($class, $namespace, $properties, $methods);
 	}
 
 
